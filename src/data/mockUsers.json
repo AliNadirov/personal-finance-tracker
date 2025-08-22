@@ -1,0 +1,12 @@
+[
+  { "id": 1, "name": "Alice Johnson", "email": "alice@example.com", "password": "Pass1234" },
+  { "id": 2, "name": "Bob Smith", "email": "bob@example.com", "password": "BobPass456" },
+  { "id": 3, "name": "Charlie Lee", "email": "charlie@example.com", "password": "Charlie789" },
+  { "id": 4, "name": "Diana Prince", "email": "diana@example.com", "password": "Wonder123" },
+  { "id": 5, "name": "Ethan Hunt", "email": "ethan@example.com", "password": "Mission456" },
+  { "id": 6, "name": "Fiona Gallagher", "email": "fiona@example.com", "password": "Fiona789" },
+  { "id": 7, "name": "George Martin", "email": "george@example.com", "password": "George321" },
+  { "id": 8, "name": "Hannah Brown", "email": "hannah@example.com", "password": "Hannah654" },
+  { "id": 9, "name": "Ian Wright", "email": "ian@example.com", "password": "Ian987" },
+  { "id": 10, "name": "Julia Roberts", "email": "julia@example.com", "password": "Julia123" }
+]
