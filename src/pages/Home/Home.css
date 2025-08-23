@@ -1,0 +1,186 @@
+.home-page-container {
+  background-color: #F59E0B;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-page-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 80px;
+}
+
+.left-side-section {
+  flex: 1;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 15%;
+}
+
+.logo-panel {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  margin-right: 15px;
+}
+
+.appName {
+  font-family: "Bitter", serif;
+  font-weight: 700;
+  color: #1e3a8a;
+  font-size: 2.7rem;
+  letter-spacing: 1.8px;
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+
+.description-title {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  max-width: 657px;
+  min-height: 120px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.home-page-login-btn,
+.home-page-create-btn {
+  background-color: transparent;
+  border: 3px solid white;
+  color: white;
+  padding: 15px 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 405px;
+  height: 59px;
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.home-page-login-btn:hover,
+.home-page-create-btn:hover {
+  background-color: white;
+  color: #fbaa1a;
+}
+
+.right-side-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.right-side-section img {
+  max-height: 662px;
+  width: 100%;
+  object-fit: cover;
+}
+
+
+@media screen and (max-width: 1024px) {
+  .home-page-content {
+    gap: 50px;
+  }
+
+  .description {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .home-page-login-btn,
+  .home-page-create-btn {
+    width: 100%;
+    max-width: 300px;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .right-side-section {
+    width: 500px;
+    height: auto;
+  }
+
+  .right-side-section img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .home-page-content {
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .left-side-section {
+    margin-left: 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  .logo-panel {
+    justify-content: center;
+  }
+
+  .appName {
+    font-size: 2rem;
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+
+  .description-title {
+    font-size: 2rem;
+  }
+
+  .description {
+    width: 90%;
+    height: auto;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .home-page-login-btn,
+  .home-page-create-btn {
+    width: 100%;
+  }
+
+  .right-side-section {
+    width: 91%;
+    height: auto;
+    margin-left: auto;
+  }
+
+  .right-side-section img {
+    width: 100%;
+    height: auto;
+  }
+}
