@@ -46,3 +46,17 @@ export function getCurrentUser() {
 export function clearCurrentUser() {
   localStorage.removeItem(currentUserKey);
 }
+
+const transactionsKey = "transactions";
+
+export function getTransactions() {
+  const stored = localStorage.getItem(transactionsKey);
+  if (stored) {
+    return JSON.parse(stored);
+  }
+  return [];
+}
+
+export function saveTransactions(transactions) {
+  localStorage.setItem(transactionsKey, JSON.stringify(transactions));
+}
