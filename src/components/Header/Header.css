@@ -1,0 +1,48 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 20px;
+  position: relative;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.logo img {
+  width: 115x;
+  height: 115px;
+  object-fit: contain;
+  margin-bottom: 3px;
+}
+
+.stripes {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.h1 {
+  font-size: 32px;
+  font-weight: 600;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  margin: 0 20px;
+}
+
+.header > img {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  border-radius: 8px;
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+}

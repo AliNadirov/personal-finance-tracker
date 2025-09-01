@@ -1,0 +1,44 @@
+.budget {
+  margin-top: 20px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.budget h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.budget-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.budget-table th,
+.budget-table td {
+  padding: 12px 8px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.budget-table th {
+  font-weight: 600;
+  color: #7D7D7D;
+}
+
+.progress-bar {
+  width: 120px;
+  height: 12px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 6px 0 0 6px;
+}

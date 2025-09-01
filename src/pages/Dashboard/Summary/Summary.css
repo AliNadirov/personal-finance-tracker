@@ -1,0 +1,21 @@
+.summary {
+  display: inline-block;
+  padding: 1px 9px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  border: 2px solid;
+  min-width: 90px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.summary.income {
+  color: #16a34a;
+  border-color: #16a34a;
+}
+
+.summary.expenses {
+  color: #d97706;
+  border-color: #d97706;
+}

@@ -1,0 +1,68 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: white;
+  width: 100%;
+}
+
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  padding: 20px;
+  align-items: start;
+}
+
+.charts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-left: 160px;
+  align-items: flex-start;
+}
+
+.charts h1 {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.charts h2 {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 10px 0;
+  color: #333;
+  align-items: flex-start;
+}
+
+.line-chart img,
+.pie-chart img {
+  width: 100%;
+  height: auto;
+  max-height: 330px;
+  object-fit: contain;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.aside-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.summary-boxes {
+  display: flex;
+  gap: 35px;
+}
+
+.line-chart h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000000;
+  text-align: left;;
+  margin-bottom: 45px;
+  letter-spacing: 1px;
+}
