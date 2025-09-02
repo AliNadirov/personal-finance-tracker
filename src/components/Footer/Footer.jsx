@@ -1,7 +1,7 @@
 import logofooter from "../../assets/images/logo-footer.svg"
-import facebook from "../../assets/imagesfacebook.png"
-import linkedin from "../../assets/images/linkedin.png"
-import telegram from "../../assets/images/telegram.png"
+import facebook from "../../assets/icons/facebook.png"
+import linkedin from "../../assets/icons/linkedin.png"
+import telegram from "../../assets/icons/telegram.png"
 import "./Footer.css"
 
 function Footer() {
@@ -18,9 +18,9 @@ function Footer() {
             <div className="footer-contact">
                 <a href="">Contact us</a>
                 <div className="social-icons">
-                <img src={linkedin} alt="linkedin" />
-                <img src={facebook} alt="facebook" />
-                <img src={telegram}alt="telegram" />
+                    <img src={linkedin} alt="linkedin" />
+                    <img src={facebook} alt="facebook" />
+                    <img src={telegram} alt="telegram" />
                 </div>
             </div>
 

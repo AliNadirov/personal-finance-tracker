@@ -8,7 +8,7 @@ import line from "../../assets/images/line.png"
 import pie from "../../assets/images/pie.png"
 import "./Dashboard.css"
 import MonthSalary from "../Dashboard/MonthlySalary/MonthlySalary"
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Sidebar from "./Sidebar/Sidebar";
 
 function Dashboard() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -20,28 +20,28 @@ function Dashboard() {
             <Header onMenuClick={toggleSidebar} />
             <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
             <main className="dashboard-content">
-            <section className="charts">
-                <div className="line-chart">
-                    <h2>Income vs. Expenses</h2>
-                    <img src={line} alt="Line Chart" />
-                </div>
-                <div className="pie-chart">
-                    <img src={pie} alt="Pie Chart" />
-                </div>
-                </section>  
+                <section className="charts">
+                    <div className="line-chart">
+                        <h2>Income vs. Expenses</h2>
+                        <img src={line} alt="Line Chart" />
+                    </div>
+                    <div className="pie-chart">
+                        <img src={pie} alt="Pie Chart" />
+                    </div>
+                </section>
                 <aside className="side-content">
                     <div className="summary-boxes">
-                        <Summary title="Income" value="$2000" type="income"/>
-                        <Summary title="Expenses" value="$1200" type="expenses"/>
-                        </div>
-                        
-                        <Budget />
-                        <RecentTransactions />
+                        <Summary title="Income" value="$2000" type="income" />
+                        <Summary title="Expenses" value="$1200" type="expenses" />
+                    </div>
 
-                        <div className="monthly-salary">
-                            <MonthSalary />
-                        </div>
-                        </aside>  
+                    <Budget />
+                    <RecentTransactions />
+
+                    <div className="monthly-salary">
+                        <MonthSalary />
+                    </div>
+                </aside>
             </main>
             <Footer />
         </div>

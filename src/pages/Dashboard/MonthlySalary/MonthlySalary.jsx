@@ -3,7 +3,7 @@ import calendarIcon from "../../../assets/images/calendar.png";
 import "./MonthlySalary.css"
 
 function MonthlySalary() {
-  const [selectedMonth, setSelectedMonth] = useState(
+  const [selectedMonth] = useState(
     `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`
   );
 
