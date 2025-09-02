@@ -1,9 +1,6 @@
 .budget {
   margin-top: 20px;
   padding: 20px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
 
 .budget h3 {
@@ -14,6 +11,8 @@
 .budget-table {
   width: 100%;
   border-collapse: collapse;
+  right: 8px;
+  position: relative;
 }
 
 .budget-table th,

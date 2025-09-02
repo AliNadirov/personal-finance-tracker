@@ -1,23 +1,20 @@
-import "./RecentTransactions.css"
+import transactions from "../../../data/mock_transactions.json";
+import "./RecentTransactions.css";
 
-function RecentTransactions(){
-    const data = [
-        {date: "30.07.2025", category: "Auto", amount: "50$"},
-        {date: "30.07.2025", category: "Food", amount: "30$"},
-        {date: "30.07.2025", category: "Pet", amount: "50$"},
-        {date: "30.07.2025", category: "Leisure", amount: "45$"},
-        {date: "30.07.2025", category: "Food", amount: "10$"},
-        {date: "30.07.2025", category: "Shopping", amount: "150$"},
-        {date: "30.07.2025", category: "Leisure", amount: "30$"},
-    ];
+function RecentTransactions() {
+  const sortedTransactions = transactions
+    .slice()
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    return (
-    <div className="transactions">
-      <div className="transactions-header">
+  const transactionsToShow = sortedTransactions.slice(0, 7);
+
+  return (
+    <div className="RecentTransactions">
+      <div className="RecentTransactions-Header">
         <h3>Recent Transactions</h3>
         <button className="add-btn">+</button>
       </div>
-      <table className="transactions-table">
+      <table className="RecentTransactions-Table">
         <thead>
           <tr>
             <th>Date</th>
@@ -26,11 +23,11 @@ function RecentTransactions(){
           </tr>
         </thead>
         <tbody>
-          {data.map((tx, i) => (
-            <tr key={i}>
-              <td>{tx.date}</td>
-              <td>{tx.category}</td>
-              <td className="amount">{tx.amount}</td>
+          {transactionsToShow.map((transaction) => (
+            <tr key={transaction.id}>
+              <td>{transaction.date}</td>
+              <td>{transaction.category}</td>
+              <td className="amount">{transaction.amount.toFixed(2)}$</td>
             </tr>
           ))}
         </tbody>

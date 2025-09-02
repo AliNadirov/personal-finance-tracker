@@ -1,48 +1,132 @@
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 10px 20px;
-  position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 20px;
+    position: relative;
 }
 
 .left {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
 }
 
 .logo img {
-  width: 115x;
-  height: 115px;
-  object-fit: contain;
-  margin-bottom: 3px;
+    width: 115px;
+    height: 115px;
+    object-fit: contain;
+    margin-bottom: 3px;
 }
 
 .stripes {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
-  cursor: pointer;
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    cursor: pointer;
+    margin-left: 18px;
 }
 
 .h1 {
-  font-size: 32px;
-  font-weight: 600;
-  height: 70px;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  margin: 0 20px;
+    font-size: 48px;
+    font-weight: 600;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin: 0 20px;
 }
 
-.header > img {
-  width: 35px;
-  height: 35px;
-  object-fit: contain;
-  border-radius: 8px;
-  position: absolute;
-  right: 20px;
-  cursor: pointer;
+.header>img {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+    border-radius: 8px;
+    position: absolute;
+    right: 165px;
+    cursor: pointer;
+}
+
+.settings-wrapper {
+    right: 100px;
+    position: relative;
+}
+
+@media (max-width: 1024px) {
+    .h1 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 500px) {
+    .h1 {
+        font-size: 24px;
+    }
+
+    .settings-wrapper {
+        right: 47px;
+        top: 60px;
+        position: relative;
+    }
+}
+
+@media (max-width: 450px) {
+    .h1 {
+        font-size: 24px;
+        right: 52px;
+        position: relative;
+    }
+
+    .settings-wrapper {
+        top: 60px;
+        right: 145px;
+        position: relative;
+
+    }
+}
+
+@media (max-width: 414px) {
+    .h1 {
+        font-size: 24px;
+        right: 54px;
+        position: relative;
+    }
+
+    .left {
+        align-items: flex-start;
+    }
+
+    .settings-wrapper {
+        top: 64px;
+        right: 120px;
+    }
+
+    .logo img {
+        width: 95px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 344px) {
+    .h1 {
+        font-size: 16px;
+        right: 54px;
+        position: relative;
+    }
+
+    .left {
+        align-items: flex-start;
+    }
+
+    .settings-wrapper {
+        top: 64px;
+        right: 20px;
+        right: 120px;
+    }
+
+    .logo img {
+        width: 95px;
+        height: 100px;
+    }
 }

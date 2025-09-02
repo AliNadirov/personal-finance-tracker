@@ -1,16 +1,16 @@
-.transactions {
+.RecentTransactions {
   background: #fff;
   margin-top: 15px;
 }
 
-.transactions-header {
+.RecentTransactions-Header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
 }
 
-.transactions-header h3 {
+.RecentTransactions-Header h3 {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
@@ -18,42 +18,40 @@
 
 .add-btn {
   background: none;
-  color: #F59E0B;
-  border: 1px solid #F59E0B;
-  border-radius: 50%;
-  width: 26px;
-  height: 26px;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 22px;
-  text-align: center;
+  color: black;
+  border: none;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
   cursor: pointer;
-  transition: 0.2s;
-  padding: 0;
+  right: 30px;
+  position: relative;
 }
 
-.add-btn:hover {
-  background: #F59E0B;
-  color: #fff;
-}
-
-.transactions-table {
+.RecentTransactions-Table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.transactions-table th,
-.transactions-table td {
+.RecentTransactions-Table th,
+.RecentTransactions-Table td {
   padding: 10px 8px;
   text-align: left;
   font-size: 14px;
 }
 
-.transactions-table th {
+.RecentTransactions-Table th {
   color: #7D7D7D;
   font-weight: 600;
 }
 
-.transactions-table td.amount {
+.RecentTransactions-Table td.amount {
   color: #111;
+}
+
+@media (max-width: 450px) {
+  .add-btn {
+    position: relative;
+    right: 47px;
+  }
 }

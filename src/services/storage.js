@@ -2,6 +2,7 @@ import mockUsers from "../data/mockUsers.json";
 
 const usersKey = "users";
 const currentUserKey = "currentUser";
+const transactionsKey = "transactions";
 
 export async function getUsers() {
   const storedUsers = localStorage.getItem(usersKey);
@@ -31,6 +32,7 @@ export async function findUserByEmail(email) {
   return users.find((user) => user.email === email) || null;
 }
 
+
 export function setCurrentUser(user) {
   localStorage.setItem(currentUserKey, JSON.stringify(user));
 }
@@ -46,8 +48,6 @@ export function getCurrentUser() {
 export function clearCurrentUser() {
   localStorage.removeItem(currentUserKey);
 }
-
-const transactionsKey = "transactions";
 
 export function getTransactions() {
   const stored = localStorage.getItem(transactionsKey);

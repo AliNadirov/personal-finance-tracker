@@ -25,7 +25,7 @@ function MonthlySalary() {
           </button>
         </div>
       </div>
-
+        <h3> January </h3>
       <div className="salary-info">
   <p className="income">
     <strong>Income:</strong> ${currentData.salary}
