@@ -1,0 +1,176 @@
+.additional-income-container {
+  margin: 0 auto;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.additional-income-title {
+  text-align: center;
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: black;
+}
+
+.income-form {
+  width: 100%;
+  max-width: 800px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.income-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  color: #333;
+}
+
+.income-form input,
+.income-form select,
+.income-form textarea {
+  margin-top: 5px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-size: 14px;
+}
+
+.income-form textarea {
+  resize: none;
+  min-height: 60px;
+}
+
+.textarea-span {
+  grid-column: span 2;
+}
+
+.income-form button {
+  grid-column: span 2;
+  padding: 12px;
+  background: #1E3A8A;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.income-table-wrapper {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.income-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.income-table th {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  background-color: #f2f2f2;
+}
+
+.income-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.delete-btn {
+  color: red;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.ExtraWorkStartDate,
+.ExtraWorkEndDate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notes-row {
+  background: white;
+}
+
+.notes-cell {
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #555;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+@media screen and (max-width: 768px) {
+  .additional-income-container {
+    padding: 10px;
+  }
+
+  .additional-income-title {
+    font-size: 32px;
+    margin-bottom: 15px;
+  }
+
+  .income-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+  }
+
+  .income-form label {
+    width: 100%;
+  }
+
+  .income-form input,
+  .income-form select,
+  .income-form textarea,
+  .income-form button {
+    width: 100%;
+    max-width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .textarea-span {
+    grid-column: unset;
+  }
+
+  .income-table {
+    table-layout: auto;
+    border-collapse: collapse;
+    display: list-item;
+  }
+
+  .income-table th,
+  .income-table td {
+    font-size: 12px;
+    padding: 8px;
+    white-space: nowrap;
+  }
+
+  .notes-cell {
+    font-size: 0.85rem;
+    padding: 6px 8px;
+  }
+}

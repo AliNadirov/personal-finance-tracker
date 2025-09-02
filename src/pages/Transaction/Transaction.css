@@ -1,0 +1,109 @@
+.transaction-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+    background: #ffffff;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.transaction-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.back-btn {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 200px - 155px);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    z-index: 100;
+}
+
+.back-btn img {
+    width: 65px;
+    height: 65px;
+}
+
+.transaction-header h2 {
+    font-size: 48px;
+    font-weight: 500;
+    color: #050505;
+    margin: 0;
+    text-align: center;
+}
+
+.transaction-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+}
+
+.transaction-form label {
+    font-size: 20px;
+    color: #050505;
+}
+
+.transaction-form input,
+.transaction-form select {
+    width: 100%;
+    height: 48px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #d1cdcd;
+    border-radius: 4px;
+    outline: none;
+}
+
+
+.transaction-form input:focus {
+    border-color: #1e3a8a;
+}
+
+.button-wrapper {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.done-btn {
+    width: 100%;
+    height: 59px;
+    background: #1e3a8a;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.done-btn:hover {
+    background: #1b3b8e;
+}
+
+@media (max-width: 600px) {
+    .transaction-header h2 {
+        font-size: 28px;
+    }
+
+    .transaction-form {
+        max-width: 100%;
+    }
+}
