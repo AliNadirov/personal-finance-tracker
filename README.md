@@ -1,13 +1,13 @@
 # React + Vite
 
-# 💰 Personal Finance Tracker
+# Personal Finance Tracker
 
 A simple web app built with **React + Vite** that lets users track income, expenses, and see their overall budget.  
 Developed as a final project for the Front-End Development course by **Ali Nadirov** and **Aisha Askerova**.
 
 ---
 
-🚀 Features
+Features
 -- Add and delete additional income information
 -- Categorize transactions (Food, Transport, Health, etc.)
 -- Display total income, total expenses, and update budget dynamically
@@ -20,14 +20,14 @@ Developed as a final project for the Front-End Development course by **Ali Nadir
 
 ---
 
-🛠 Tech Stack
+Tech Stack
 Frontend: React, Vite
 Styling: CSS3
 Version Control: Git & GitHub
 
 ---
 
-## ⚡ Getting Started
+## Getting Started
 Clone the repository and run locally:
 ```bash
 git clone https://github.com/AliNadirov/personal-finance-tracker.git
