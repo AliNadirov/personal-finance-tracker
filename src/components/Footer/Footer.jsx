@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logofooter from "../../assets/images/logo-footer.svg"
 import facebook from "../../assets/icons/facebook.png"
 import linkedin from "../../assets/icons/linkedin.png"
@@ -9,9 +10,8 @@ function Footer() {
         <footer className="footer">
             <div className="footer-links">
                 <a href="#">Privacy Policy</a>
-                <a href="#">Support</a>
-                <a href="#">Terms of use</a>
-                <a href="#">Settings</a>
+                <Link to="/support">Support</Link>
+                <Link to="/terms-of-use">Terms of use</Link>
                 <a href="#">About</a>
             </div>
             <img src={logofooter} alt="logo" />

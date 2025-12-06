@@ -15,7 +15,7 @@ import "./Dashboard.css";
 
 function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [userBudget, setUserBudget] = useState(2000);
+  const [userBudget, setUserBudget] = useState(8000);
   const [totalExpenses, setTotalExpenses] = useState(0);
 
   const loadUserBudget = () => {

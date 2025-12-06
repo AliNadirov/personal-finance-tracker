@@ -15,12 +15,26 @@ export default function IconButtons({ className = "" }) {
 
   const googleLogin = useGoogleLogin({
     clientId: google_client_id,
-    onSuccess: async () => {
-      setErrorMessage("");
-      const user = { email: "googleuser@example.com", name: "Google User" };
-      if (!(await findUserByEmail(user.email))) await addUser(user);
-      setCurrentUser(user);
-      navigate("/dashboard");
+      onSuccess: async (tokenResponse) => {
+      try {
+        const userInfoResponse = await fetch(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+          }
+        );
+
+        const userInfo = await userInfoResponse.json();
+
+        const user = { email: userInfo.email, name: userInfo.name };
+
+        if (!(await findUserByEmail(user.email))) await addUser(user);
+        setCurrentUser(user);
+        navigate("/dashboard");
+      } catch (err) {
+        console.error("Failed to fetch Google user info:", err);
+        setErrorMessage("Could not get your Google profile info.");
+      }
     },
     onError: (error) => {
       console.error("Google login error:", error);
