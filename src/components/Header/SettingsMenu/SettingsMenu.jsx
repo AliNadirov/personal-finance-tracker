@@ -36,7 +36,7 @@ export default function SettingsMenu() {
 
       <div className="menu-footer">
         <a onClick={() => navigate("/privacy-policy")}>Privacy Policy</a>
-        <a onClick={() => navigate("/terms-of-service")}>Terms of Service</a>
+        <a onClick={() => navigate("/terms-of-use")}>Terms of Use</a>
       </div>
     </div>
   );
