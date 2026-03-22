@@ -74,5 +74,5 @@ npm run dev
 
 ## Authors
 
-- Ali Nadirov (Front-End)
+- Ali Nadirov
 - Aisha Askerova
