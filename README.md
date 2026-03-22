@@ -70,3 +70,9 @@ git clone https://github.com/AliNadirov/personal-finance-tracker.git
 cd personal-finance-tracker
 npm install
 npm run dev
+```
+
+## Authors
+
+- Ali Nadirov (Front-End)
+- Aisha Askerova
