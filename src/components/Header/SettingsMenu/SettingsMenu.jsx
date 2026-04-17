@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCurrentUser, clearCurrentUser } from "../../../services/storage.js";
-import "./settingsMenu.css";
+import "./SettingsMenu.css";
 
 export default function SettingsMenu() {
   const [user, setUser] = useState(null);
