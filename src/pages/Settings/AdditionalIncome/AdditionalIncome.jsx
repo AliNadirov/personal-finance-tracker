@@ -3,7 +3,7 @@ import { getCurrentUser, setCurrentUser } from "../../../services/storage.js";
 import mockAdditionalIncome from "../../../data/mockAdditionalIncome.json";
 import backBtn from "../../../assets/icons/baseline-arrow-back.png";
 import { useNavigate } from "react-router-dom";
-import "./additionalIncome.css";
+import "./AdditionalIncome.css";
 
 
 const workTypes = ["Freelance", "Part-time", "Gig/Task-based", "Remote/Online job", "Passive Income"];
