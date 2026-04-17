@@ -1,22 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import GoogleIcon from "../../../assets/icons/GoogleIcon";
 import FacebookIcon from "../../../assets/icons/FacebookIcon";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import { addUser, setCurrentUser, findUserByEmail } from "../../../services/storage.js";
+import { addUser, setCurrentUser, findUserByEmail, getUsers } from "../../../services/storage.js";
+import { loadFacebookSdk, facebookLogin } from "../../../services/facebookSdk.js";
 import "./IconButtons.css";
 
 export default function IconButtons({ className = "" }) {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
-  const google_client_id = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-  const facebook_app_id = import.meta.env.VITE_FACEBOOK_APP_ID;
+
+  useEffect(() => {
+    loadFacebookSdk().catch((error) => {
+      console.error("Facebook SDK load error:", error);
+    });
+  }, []);
 
   const googleLogin = useGoogleLogin({
-    clientId: google_client_id,
-      onSuccess: async (tokenResponse) => {
+    onSuccess: async (tokenResponse) => {
       try {
+        setErrorMessage("");
+
         const userInfoResponse = await fetch(
           "https://www.googleapis.com/oauth2/v3/userinfo",
           {
@@ -25,14 +30,25 @@ export default function IconButtons({ className = "" }) {
         );
 
         const userInfo = await userInfoResponse.json();
+        const existingUser = await findUserByEmail(userInfo.email);
 
-        const user = { email: userInfo.email, name: userInfo.name };
+        let user = existingUser;
 
-        if (!(await findUserByEmail(user.email))) await addUser(user);
+        if (!user) {
+          const users = await getUsers();
+          user = {
+            id: users.length + 1,
+            name: userInfo.name,
+            email: userInfo.email,
+            password: "",
+          };
+          await addUser(user);
+        }
+
         setCurrentUser(user);
         navigate("/dashboard");
-      } catch (err) {
-        console.error("Failed to fetch Google user info:", err);
+      } catch (error) {
+        console.error("Failed to fetch Google user info:", error);
         setErrorMessage("Could not get your Google profile info.");
       }
     },
@@ -42,40 +58,75 @@ export default function IconButtons({ className = "" }) {
     },
   });
 
-  const handleGoogleLogin = () => googleLogin();
+  const handleGoogleLogin = () => {
+    googleLogin();
+  };
 
-  const handleFacebookResponse = async (response) => {
-    if (!response || !response.email) {
-      console.error("Facebook login failed:", response);
-      setErrorMessage("Facebook login failed. Please allow email access.");
-      return;
+  const handleFacebookLogin = async () => {
+    try {
+      setErrorMessage("");
+
+      await loadFacebookSdk();
+      const profile = await facebookLogin();
+
+      if (!profile.email) {
+        setErrorMessage("Facebook login failed. Please allow email access.");
+        return;
+      }
+
+      const existingUser = await findUserByEmail(profile.email);
+
+      let user = existingUser;
+
+      if (!user) {
+        const users = await getUsers();
+        user = {
+          id: users.length + 1,
+          name: profile.name,
+          email: profile.email,
+          password: "",
+        };
+        await addUser(user);
+      }
+
+      setCurrentUser(user);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Facebook login error:", error);
+      setErrorMessage("Facebook login failed. Please try again.");
     }
-
-    setErrorMessage("");
-    const user = { email: response.email, name: response.name };
-    if (!(await findUserByEmail(user.email))) await addUser(user);
-    setCurrentUser(user);
-    navigate("/dashboard");
   };
 
   return (
     <div className={`social-login-buttons ${className}`}>
       <div className="icons-row">
-        <div className="social-btn google" onClick={handleGoogleLogin}>
+        <div
+          className="social-btn google"
+          onClick={handleGoogleLogin}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              handleGoogleLogin();
+            }
+          }}
+        >
           <GoogleIcon />
         </div>
 
-        <FacebookLogin
-          appId={facebook_app_id}
-          autoLoad={false}
-          fields="name,email"
-          callback={handleFacebookResponse}
-          render={(renderProps) => (
-            <div className="social-btn facebook" onClick={renderProps.onClick}>
-              <FacebookIcon />
-            </div>
-          )}
-        />
+        <div
+          className="social-btn facebook"
+          onClick={handleFacebookLogin}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              handleFacebookLogin();
+            }
+          }}
+        >
+          <FacebookIcon />
+        </div>
       </div>
 
       <div className="social-button-error-message">{errorMessage}</div>

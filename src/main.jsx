@@ -11,18 +11,3 @@ createRoot(document.getElementById('root')).render(
     </GoogleOAuthProvider>
   </StrictMode>
 );
-
-// Reason for using this code: suppressing specific warning messages from Facebook SDK in development mode
-// Reference: https://stackoverflow.com/questions/63990910/how-to-disable-warning-messages-from-react-facebook-login
-if (import.meta.env.DEV) {
-  const originalWarn = console.warn;
-  console.warn = (...args) => {
-    if (
-      typeof args[0] === "string" &&
-      args[0].includes("componentWillReceiveProps has been renamed")
-    ) {
-      return;
-    }
-    originalWarn(...args); // keep other warnings
-  };
-}
