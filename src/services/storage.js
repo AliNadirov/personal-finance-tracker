@@ -1,4 +1,5 @@
 import mockUsers from "../data/mockUsers.json";
+import mockTransactions from "../data/mock_transactions.json";
 
 const usersKey = "users";
 const currentUserKey = "currentUser";
@@ -58,4 +59,19 @@ export function getTransactions() {
 
 export function saveTransactions(transactions) {
   localStorage.setItem(getTransactionsKey(), JSON.stringify(transactions));
+}
+
+export function getAllTransactions() {
+  const stored = getTransactions();
+
+  return [...mockTransactions, ...stored].sort((a, b) => {
+    const aCreated = Number(a.createdAt) || new Date(a.date).getTime();
+    const bCreated = Number(b.createdAt) || new Date(b.date).getTime();
+
+    if (bCreated !== aCreated) {
+      return bCreated - aCreated;
+    }
+
+    return String(a.id).localeCompare(String(b.id));
+  });
 }

@@ -6,11 +6,11 @@ import backIcon from '../../assets/icons/baseline-arrow-back.png';
 import "./Categories.css";
 
 const initialCategories = [
-  "Family & Kids",
+  "Family",
   "Essentials",
   "Lifestyle",
   "Education",
-  "Travels",
+  "Travel",
   "Health",
 ];
 

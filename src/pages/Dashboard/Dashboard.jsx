@@ -1,11 +1,10 @@
-
 import { useState, useEffect } from "react";
 import Header from "../../components/Header/Header";
 import Budget from "../Dashboard/Budget/Budget";
 import RecentTransactions from "../Dashboard/RecentTransactions/RecentTransactions";
 import Summary from "../Dashboard/Summary/Summary";
 import Footer from "../../components/Footer/Footer";
-import line from "../../assets/images/line.png";
+import IncomeExpensesChart from "./IncomeExpensesChart/IncomeExpensesChart";
 import pie from "../../assets/images/pie.png";
 import MonthSalary from "../Dashboard/MonthlySalary/MonthlySalary";
 import Sidebar from "./Sidebar/Sidebar";
@@ -58,9 +57,8 @@ function Dashboard() {
       <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
       <main className="dashboard-content">
         <section className="charts">
-          <div className="line-chart">
-            <h2>Income vs. Expenses</h2>
-            <img src={line} alt="Line Chart" />
+         <div className="line-chart">
+            <IncomeExpensesChart userBudget={userBudget} />
           </div>
           <div className="pie-chart">
             <img src={pie} alt="Pie Chart" />
