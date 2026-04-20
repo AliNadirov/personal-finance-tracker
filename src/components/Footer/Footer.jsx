@@ -1,32 +1,27 @@
 import { Link } from "react-router-dom";
 import logofooter from "../../assets/images/main_logo.svg";
-import facebook from "../../assets/icons/facebook.png";
-import linkedin from "../../assets/icons/linkedin.png";
-import telegram from "../../assets/icons/telegram.png";
 import "./Footer.css";
 
 function Footer() {
   return (
-    <footer className="footer">
-      <div className="footer-links">
-        <a href="#">Privacy Policy</a>
+    <footer className="dashboard-footer">
+      <div className="dashboard-footer-left">
+        <img
+          src={logofooter}
+          alt="BudgetBee logo"
+          className="dashboard-footer-logo"
+        />
+        <span className="dashboard-footer-copy">
+          © 2026 BudgetBee
+        </span>
+      </div>
+
+      <div className="dashboard-footer-links">
         <Link to="/support">Support</Link>
-        <Link to="/terms-of-use">Terms of use</Link>
-        <a href="/about">About</a>
-      </div>
-
-      <div className="footer-logo">
-        <img src={logofooter} alt="logo" />
-      </div>
-
-      <div className="footer-contact">
-        <Link to="/contact">Contact us</Link>
-
-        <div className="social-icons">
-          <img src={linkedin} alt="linkedin" />
-          <img src={facebook} alt="facebook" />
-          <img src={telegram} alt="telegram" />
-        </div>
+        <Link to="/contact">Contact</Link>
+        <Link to="/about">About</Link>
+        <Link to="/privacy-policy">Privacy</Link>
+        <Link to="/terms-of-use">Terms</Link>
       </div>
     </footer>
   );

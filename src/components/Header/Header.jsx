@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import logo from "../../assets/images/main_logo.svg";
 import Vector from "../../assets/images/Vector.png";
 import stripes from "../../assets/images/button-stripe.png";
 import SettingsMenu from "./SettingsMenu/SettingsMenu";
@@ -34,34 +33,44 @@ function Header({ onMenuClick }) {
 
     document.addEventListener("mousedown", handleClickOutside);
 
-    return () =>
+    return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   return (
     <header className="header">
       <div className="left">
-        <div className="logo">
-          <img src={logo} alt="Logo" />
-        </div>
-
-        <img
-          className="stripes"
-          src={stripes}
-          alt="menu"
+        <button
+          type="button"
+          className="menu-button"
           onClick={onMenuClick}
-        />
+          aria-label="Open menu"
+        >
+          <img className="stripes" src={stripes} alt="" />
+        </button>
       </div>
 
-      <h1 className="h1">Have a good day, {userName}</h1>
+      <div className="header-center">
+        <h1 className="header-title">Welcome back, {userName}</h1>
+        <p className="header-subtitle">
+          Track your budget and spending in one place
+        </p>
+      </div>
 
       <div ref={menuRef} className="settings-wrapper">
-        <img
-          src={Vector}
-          alt="Settings"
-          className="settings-icon"
-          onClick={() => setMenuOpen(!menuOpen)}
-        />
+        <button
+          type="button"
+          className="settings-button"
+          onClick={() => setMenuOpen((prev) => !prev)}
+          aria-label="Open settings menu"
+        >
+          <img
+            src={Vector}
+            alt=""
+            className="settings-icon"
+          />
+        </button>
 
         {menuOpen && <SettingsMenu />}
       </div>
