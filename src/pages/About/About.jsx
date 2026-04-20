@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "./About.css";
-import logo from "../../assets/images/Logo5.png";
+import logo from "../../assets/images/main_logo.svg";
 const About = () => {
   return (
     <div className="about-container">

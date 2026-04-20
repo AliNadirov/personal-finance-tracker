@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../../assets/images/logo-footer.svg";
+import logo from "../../../assets/images/main_logo.svg";
 import stripes from "../../../assets/images/button-stripe.png";
 import "./Sidebar.css";
 

@@ -4,9 +4,9 @@ import Budget from "../Dashboard/Budget/Budget";
 import RecentTransactions from "../Dashboard/RecentTransactions/RecentTransactions";
 import Summary from "../Dashboard/Summary/Summary";
 import Footer from "../../components/Footer/Footer";
+import CalendarSummary from "./CalendarSummary/CalendarSummary";
 import IncomeExpensesChart from "./IncomeExpensesChart/IncomeExpensesChart";
 import pie from "../../assets/images/pie.png";
-import MonthSalary from "../Dashboard/MonthlySalary/MonthlySalary";
 import Sidebar from "./Sidebar/Sidebar";
 import { getCurrentUser, getTransactions } from "../../services/storage";
 import mockTransactions from "../../data/mock_transactions.json";
@@ -15,7 +15,7 @@ import "./Dashboard.css";
 function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [userBudget, setUserBudget] = useState(8000);
-  const [totalExpenses, setTotalExpenses] = useState(0);
+  const [latestMonthExpenses, setLatestMonthExpenses] = useState(0);
 
   const loadUserBudget = () => {
     const currentUser = getCurrentUser();
@@ -24,29 +24,49 @@ function Dashboard() {
     }
   };
 
-  const calculateTotalExpenses = () => {
+  const calculateLatestMonthExpenses = () => {
     const storedTransactions = getTransactions();
     const allTransactions = [...mockTransactions, ...storedTransactions];
-    const total = allTransactions.reduce((sum, transaction) => sum + transaction.amount, 0);
-    setTotalExpenses(total);
+
+    if (allTransactions.length === 0) {
+      setLatestMonthExpenses(0);
+      return;
+    }
+
+    const latestTimestamp = Math.max(
+      ...allTransactions.map((t) => new Date(t.date).getTime())
+    );
+
+    const latestDate = new Date(latestTimestamp);
+    const latestMonth = latestDate.getMonth();
+    const latestYear = latestDate.getFullYear();
+
+    const latestMonthTransactions = allTransactions.filter((t) => {
+      const d = new Date(t.date);
+      return d.getMonth() === latestMonth && d.getFullYear() === latestYear;
+    });
+
+    const total = latestMonthTransactions.reduce(
+      (sum, t) => sum + Number(t.amount),
+      0
+    );
+
+    setLatestMonthExpenses(total);
   };
 
   useEffect(() => {
     loadUserBudget();
-    calculateTotalExpenses();
+    calculateLatestMonthExpenses();
 
     const handleStorageChange = (e) => {
       if (e.key === "currentUser" || e.key === "transactions") {
         loadUserBudget();
-        calculateTotalExpenses();
+        calculateLatestMonthExpenses();
       }
     };
 
     window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
@@ -55,31 +75,46 @@ function Dashboard() {
     <div className="dashboard">
       <Header onMenuClick={toggleSidebar} />
       <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
+
       <main className="dashboard-content">
         <section className="charts">
-         <div className="line-chart">
+          <div className="line-chart">
             <IncomeExpensesChart userBudget={userBudget} />
           </div>
-          <div className="pie-chart">
+
+          <div className="pie-section">
             <img src={pie} alt="Pie Chart" />
+
+            <div className="pie-bottom">
+              <CalendarSummary />
+            </div>
           </div>
         </section>
+
         <aside className="side-content">
           <div className="budget-panel">
             <div className="summary-boxes">
-              <Summary title="Income" value={`$${userBudget.toFixed(2)}`} type="income" />
-              <Summary title="Expenses" value={`$${totalExpenses.toFixed(2)}`} type="expenses" />
+              <Summary
+                title="Budget"
+                value={`$${userBudget.toFixed(2)}`}
+                type="income"
+              />
+              <Summary
+                title="Spent"
+                value={`$${latestMonthExpenses.toFixed(2)}`}
+                type="expenses"
+              />
             </div>
+
             <Budget budget={userBudget} />
           </div>
+
           <div className="aside-down-panel">
             <RecentTransactions />
-            <div className="monthly-salary">
-              <MonthSalary />
-            </div>
           </div>
         </aside>
       </main>
+
       <Footer />
     </div>
   );

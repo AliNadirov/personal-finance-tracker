@@ -1,9 +1,10 @@
 import "./Summary.css";
 
-function Summary({ value, type }) {
+function Summary({ title, value, type }) {
   return (
     <div className={`summary ${type}`}>
-      <p>{value}</p>
+      <span className="summary-title">{title}</span>
+      <p className="summary-value">{value}</p>
     </div>
   );
 }

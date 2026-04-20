@@ -3,13 +3,7 @@ import mockTransactions from "../data/mock_transactions.json";
 
 const usersKey = "users";
 const currentUserKey = "currentUser";
-
-function getTransactionsKey() {
-  const currentUser = getCurrentUser();
-  return currentUser?.email
-    ? `transactions_${currentUser.email}`
-    : "transactions_guest";
-}
+const transactionsKey = "transactions";
 
 export async function getUsers() {
   const storedUsers = localStorage.getItem(usersKey);
@@ -40,12 +34,20 @@ export async function findUserByEmail(email) {
 }
 
 export function setCurrentUser(user) {
-  localStorage.setItem(currentUserKey, JSON.stringify(user));
+  const normalizedUser = {
+    name: user.name || user.displayName || "",
+    email: user.email || "",
+    ...user,
+  };
+  localStorage.setItem(currentUserKey, JSON.stringify(normalizedUser));
 }
 
 export function getCurrentUser() {
   const user = localStorage.getItem(currentUserKey);
-  return user ? JSON.parse(user) : null;
+  if (user) {
+    return JSON.parse(user);
+  }
+  return null;
 }
 
 export function clearCurrentUser() {
@@ -53,12 +55,15 @@ export function clearCurrentUser() {
 }
 
 export function getTransactions() {
-  const stored = localStorage.getItem(getTransactionsKey());
-  return stored ? JSON.parse(stored) : [];
+  const stored = localStorage.getItem(transactionsKey);
+  if (stored) {
+    return JSON.parse(stored);
+  }
+  return [];
 }
 
 export function saveTransactions(transactions) {
-  localStorage.setItem(getTransactionsKey(), JSON.stringify(transactions));
+  localStorage.setItem(transactionsKey, JSON.stringify(transactions));
 }
 
 export function getAllTransactions() {
@@ -72,6 +77,6 @@ export function getAllTransactions() {
       return bCreated - aCreated;
     }
 
-    return String(a.id).localeCompare(String(b.id));
+    return String(b.id).localeCompare(String(a.id));
   });
 }

@@ -19,6 +19,16 @@
   min-width: 0;
 }
 
+.income-expenses-chart-empty {
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+}
+
 .income-expenses-tooltip {
   background: #fff;
   border: 1px solid #e5e7eb;

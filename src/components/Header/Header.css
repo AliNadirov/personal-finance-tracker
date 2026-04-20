@@ -1,132 +1,141 @@
 .header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 10px 20px;
-    position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, auto) minmax(0, 1fr);
+  align-items: center;
+  padding: 14px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 12px;
 }
 
 .left {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-self: start;
+  min-width: 0;
+}
+
+.logo {
+  flex-shrink: 0;
 }
 
 .logo img {
-    width: 115px;
-    height: 115px;
-    object-fit: contain;
-    margin-bottom: 3px;
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  display: block;
 }
 
 .stripes {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    cursor: pointer;
-    margin-left: 18px;
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.stripes:hover {
+  transform: scale(1.05);
 }
 
 .h1 {
-    font-size: 48px;
-    font-weight: 600;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    margin: 0 20px;
-}
-
-.header>img {
-    width: 65px;
-    height: 65px;
-    object-fit: contain;
-    border-radius: 8px;
-    position: absolute;
-    right: 165px;
-    cursor: pointer;
+  font-size: 36px;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .settings-wrapper {
-    right: 100px;
-    position: relative;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.settings-icon {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.settings-icon:hover {
+  transform: rotate(8deg) scale(1.05);
 }
 
 @media (max-width: 1024px) {
-    .h1 {
-        font-size: 32px;
-    }
+  .h1 {
+    font-size: 28px;
+  }
+
+  .logo img {
+    width: 80px;
+    height: 80px;
+  }
 }
 
-@media (max-width: 768px) and (min-width: 500px) {
-    .h1 {
-        font-size: 24px;
-    }
+@media (max-width: 768px) {
+  .header {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding: 10px 14px;
+    gap: 8px;
+  }
 
-    .settings-wrapper {
-        right: 47px;
-        top: 60px;
-        position: relative;
-    }
+  .left {
+    gap: 8px;
+  }
+
+  .logo img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .stripes {
+    width: 28px;
+    height: 28px;
+  }
+
+  .h1 {
+    font-size: 18px;
+  }
+
+  .settings-icon {
+    width: 32px;
+    height: 32px;
+  }
 }
 
-@media (max-width: 450px) {
-    .h1 {
-        font-size: 24px;
-        right: 52px;
-        position: relative;
-    }
+@media (max-width: 360px) {
+  .header {
+    gap: 6px;
+    padding: 10px 10px;
+  }
 
-    .settings-wrapper {
-        top: 60px;
-        right: 145px;
-        position: relative;
+  .logo img {
+    width: 38px;
+    height: 38px;
+  }
 
-    }
-}
+  .stripes {
+    width: 24px;
+    height: 24px;
+  }
 
-@media (max-width: 414px) {
-    .h1 {
-        font-size: 24px;
-        right: 54px;
-        position: relative;
-    }
+  .h1 {
+    font-size: 16px;
+  }
 
-    .left {
-        align-items: flex-start;
-    }
-
-    .settings-wrapper {
-        top: 64px;
-        right: 120px;
-    }
-
-    .logo img {
-        width: 95px;
-        height: 100px;
-    }
-}
-
-@media (max-width: 344px) {
-    .h1 {
-        font-size: 16px;
-        right: 54px;
-        position: relative;
-    }
-
-    .left {
-        align-items: flex-start;
-    }
-
-    .settings-wrapper {
-        top: 64px;
-        right: 20px;
-        right: 120px;
-    }
-
-    .logo img {
-        width: 95px;
-        height: 100px;
-    }
+  .settings-icon {
+    width: 28px;
+    height: 28px;
+  }
 }

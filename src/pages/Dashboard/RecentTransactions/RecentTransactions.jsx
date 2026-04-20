@@ -1,37 +1,69 @@
-import transactions from "../../../data/mock_transactions.json";
+import { useNavigate } from "react-router-dom";
+import { getAllTransactions } from "../../../services/storage";
 import "./RecentTransactions.css";
 
 function RecentTransactions() {
-  const sortedTransactions = transactions
-    .slice()
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+  const navigate = useNavigate();
 
-  const transactionsToShow = sortedTransactions.slice(0, 7);
+  const transactionsToShow = getAllTransactions()
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 5);
+
+  const handleAddClick = () => {
+    navigate("/categories");
+  };
+
+  const handleTransactionClick = (transaction) => {
+    navigate("/categories", {
+      state: {
+        category: transaction.category,
+      },
+    });
+  };
 
   return (
     <div className="RecentTransactions">
       <div className="RecentTransactions-Header">
         <h3>Recent Transactions</h3>
-        <button className="add-btn">+</button>
+
+        <button className="add-btn" onClick={handleAddClick}>
+          +
+        </button>
       </div>
-      <table className="RecentTransactions-Table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Category</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactionsToShow.map((transaction) => (
-            <tr key={transaction.id}>
-              <td>{transaction.date}</td>
-              <td>{transaction.category}</td>
-              <td className="amount">{transaction.amount.toFixed(2)}$</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+
+      <div className="RecentTransactions-List">
+       {transactionsToShow.map((transaction, index) => {
+          const isIncome = transaction.amount > 0;
+
+          return (
+            <div
+              key={`${transaction.id}-${transaction.date}-${index}`}
+              className="transaction-item"
+              onClick={() => handleTransactionClick(transaction)}
+            >
+              <div className="transaction-left">
+                <div className="transaction-type">
+                  {transaction.type}
+                </div>
+
+                <div className="transaction-category">
+                  {transaction.category} •{" "}
+                  {new Date(transaction.date).toLocaleDateString()}
+                </div>
+              </div>
+
+              <div
+                className={`transaction-right ${
+                  isIncome ? "transaction-income" : "transaction-expense"
+                }`}
+              >
+                {isIncome ? "+" : "-"}$
+                {Math.abs(transaction.amount).toFixed(2)}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

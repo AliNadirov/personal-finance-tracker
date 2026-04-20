@@ -59,7 +59,12 @@ function IncomeExpensesChart() {
       expenses: Number(item.expenses.toFixed(2)),
     }));
 
-  const maxExpenses = Math.max(...chartData.map((item) => item.expenses), 0);
+  const hasChartData = chartData.length > 0;
+
+  const maxExpenses = hasChartData
+    ? Math.max(...chartData.map((item) => item.expenses), 0)
+    : 0;
+
   const roundedMax =
     maxExpenses > 0 ? Math.ceil(maxExpenses / 1000) * 1000 : 1000;
 
@@ -101,87 +106,93 @@ function IncomeExpensesChart() {
     <div className="income-expenses-chart">
       <h2>Monthly Spending Trend</h2>
 
-      <div className="income-expenses-chart-inner" tabIndex={-1}>
-      <ResponsiveContainer width="100%" height={isMobile ? 280 : 360}>
-          <AreaChart
-            data={chartData}
-            accessibilityLayer={false}
-            margin={
-              isMobile
-                ? { top: 24, right: 24, left: 6, bottom: 16 }
-                : { top: 28, right: 55, left: 8, bottom: 28 }
-            }
-          >
-            <defs>
-              <linearGradient id="expensesGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#5da2f6" stopOpacity={0.16} />
-                <stop offset="100%" stopColor="#5da2f6" stopOpacity={0.02} />
-              </linearGradient>
-            </defs>
-
-            <CartesianGrid
-              stroke="#e8edf3"
-              strokeDasharray="3 3"
-              vertical={true}
-            />
-
-            <XAxis
-              dataKey="month"
-              axisLine={false}
-              tickLine={false}
-              padding={isMobile ? { left: 22, right: 22 } : { left: 42, right: 42 }}
-              tick={{ fill: "#7d7d7d", fontSize: isMobile ? 11 : 14 }}
-              interval={0}
-            />
-
-            <YAxis
-              domain={[0, yAxisTicks[yAxisTicks.length - 1]]}
-              ticks={yAxisTicks}
-              axisLine={false}
-              tickLine={false}
-              tickMargin={isMobile ? 8 : 12}
-              tick={{ fill: "#8a8f98", fontSize: isMobile ? 11 : 14 }}
-              tickFormatter={formatYAxisTick}
-              width={isMobile ? 42 : 60}
-            />
-
-            <Tooltip content={<CustomTooltip />} cursor={false} />
-
-            <Area
-              type="monotone"
-              dataKey="expenses"
-              stroke="#5da2f6"
-              strokeWidth={isMobile ? 2.5 : 3}
-              fill="url(#expensesGradient)"
-              dot={{
-                r: isMobile ? 3 : 4,
-                stroke: "#5da2f6",
-                strokeWidth: 2,
-                fill: "#ffffff",
-              }}
-              activeDot={{
-                r: isMobile ? 5 : 6,
-                stroke: "#5da2f6",
-                strokeWidth: 2,
-                fill: "#5da2f6",
-              }}
-              isAnimationActive={false}
+      {!hasChartData ? (
+        <div className="income-expenses-chart-empty">
+          No transaction data yet
+        </div>
+      ) : (
+        <div className="income-expenses-chart-inner" tabIndex={-1}>
+          <ResponsiveContainer width="100%" height={isMobile ? 280 : 360}>
+            <AreaChart
+              data={chartData}
+              accessibilityLayer={false}
+              margin={
+                isMobile
+                  ? { top: 24, right: 24, left: 6, bottom: 16 }
+                  : { top: 28, right: 55, left: 8, bottom: 28 }
+              }
             >
-              <LabelList
-                dataKey="expenses"
-                position="top"
-                formatter={formatPointLabel}
-                offset={isMobile ? 8 : 12}
-                style={{
-                  fill: "#6f7680",
-                  fontSize: isMobile ? 11 : 13,
-                  fontWeight: 600,
-                }}
+              <defs>
+                <linearGradient id="expensesGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#5da2f6" stopOpacity={0.16} />
+                  <stop offset="100%" stopColor="#5da2f6" stopOpacity={0.02} />
+                </linearGradient>
+              </defs>
+
+              <CartesianGrid
+                stroke="#e8edf3"
+                strokeDasharray="3 3"
+                vertical={true}
               />
-            </Area>
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+
+              <XAxis
+                dataKey="month"
+                axisLine={false}
+                tickLine={false}
+                padding={isMobile ? { left: 22, right: 22 } : { left: 42, right: 42 }}
+                tick={{ fill: "#7d7d7d", fontSize: isMobile ? 11 : 14 }}
+                interval={0}
+              />
+
+              <YAxis
+                domain={[0, yAxisTicks[yAxisTicks.length - 1]]}
+                ticks={yAxisTicks}
+                axisLine={false}
+                tickLine={false}
+                tickMargin={isMobile ? 8 : 12}
+                tick={{ fill: "#8a8f98", fontSize: isMobile ? 11 : 14 }}
+                tickFormatter={formatYAxisTick}
+                width={isMobile ? 42 : 60}
+              />
+
+              <Tooltip content={<CustomTooltip />} cursor={false} />
+
+              <Area
+                type="monotone"
+                dataKey="expenses"
+                stroke="#5da2f6"
+                strokeWidth={isMobile ? 2.5 : 3}
+                fill="url(#expensesGradient)"
+                dot={{
+                  r: isMobile ? 3 : 4,
+                  stroke: "#5da2f6",
+                  strokeWidth: 2,
+                  fill: "#ffffff",
+                }}
+                activeDot={{
+                  r: isMobile ? 5 : 6,
+                  stroke: "#5da2f6",
+                  strokeWidth: 2,
+                  fill: "#5da2f6",
+                }}
+                isAnimationActive={false}
+              >
+                <LabelList
+                  dataKey="expenses"
+                  position="top"
+                  formatter={formatPointLabel}
+                  offset={isMobile ? 8 : 12}
+                  style={{
+                    fill: "#6f7680",
+                    fontSize: isMobile ? 11 : 13,
+                    fontWeight: 600,
+                  }}
+                />
+              </Area>
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      )}
     </div>
   );
 }
