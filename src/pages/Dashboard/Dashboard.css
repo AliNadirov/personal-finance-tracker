@@ -25,7 +25,7 @@
   box-sizing: border-box;
 }
 
-.dashboard-content>* {
+.dashboard-content > * {
   min-width: 0;
 }
 
@@ -51,19 +51,13 @@
   padding: 20px;
   border: 1px solid #e2e8f0;
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+  box-sizing: border-box;
 }
 
 .pie-section {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-canvas {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  display: block;
+  gap: 20px;
 }
 
 .pie-bottom {
@@ -150,10 +144,20 @@ canvas {
   .charts h2 {
     font-size: 18px;
   }
+
+  .pie-section {
+    gap: 16px;
+  }
 }
 
 @media (max-width: 480px) {
   .dashboard-content {
     padding: 14px 12px 20px;
+  }
+
+  .line-chart,
+  .pie-section {
+    padding: 16px;
+    border-radius: 18px;
   }
 }

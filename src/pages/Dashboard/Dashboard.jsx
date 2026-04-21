@@ -6,7 +6,7 @@ import Summary from "../Dashboard/Summary/Summary";
 import Footer from "../../components/Footer/Footer";
 import CalendarSummary from "./CalendarSummary/CalendarSummary";
 import IncomeExpensesChart from "./IncomeExpensesChart/IncomeExpensesChart";
-import pie from "../../assets/images/pie.png";
+import PieChartBox from "./PieChartBox/PieChartBox";
 import Sidebar from "./Sidebar/Sidebar";
 import { getCurrentUser, getTransactions } from "../../services/storage";
 import mockTransactions from "../../data/mock_transactions.json";
@@ -83,7 +83,7 @@ function Dashboard() {
           </div>
 
           <div className="pie-section">
-            <img src={pie} alt="Pie Chart" />
+            <PieChartBox />
 
             <div className="pie-bottom">
               <CalendarSummary />

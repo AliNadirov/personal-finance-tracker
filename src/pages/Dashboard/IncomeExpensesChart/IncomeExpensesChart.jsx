@@ -54,6 +54,7 @@ function IncomeExpensesChart() {
       if (a.year !== b.year) return a.year - b.year;
       return a.month - b.month;
     })
+    .slice(-6)
     .map((item) => ({
       month: item.monthLabel,
       expenses: Number(item.expenses.toFixed(2)),
@@ -118,8 +119,8 @@ function IncomeExpensesChart() {
               accessibilityLayer={false}
               margin={
                 isMobile
-                  ? { top: 24, right: 24, left: 6, bottom: 16 }
-                  : { top: 28, right: 55, left: 8, bottom: 28 }
+                  ? { top: 24, right: 28, left: 6, bottom: 16 }
+                  : { top: 28, right: 64, left: 8, bottom: 28 }
               }
             >
               <defs>
@@ -139,7 +140,9 @@ function IncomeExpensesChart() {
                 dataKey="month"
                 axisLine={false}
                 tickLine={false}
-                padding={isMobile ? { left: 22, right: 22 } : { left: 42, right: 42 }}
+                padding={
+                  isMobile ? { left: 22, right: 22 } : { left: 42, right: 42 }
+                }
                 tick={{ fill: "#7d7d7d", fontSize: isMobile ? 11 : 14 }}
                 interval={0}
               />
@@ -149,10 +152,14 @@ function IncomeExpensesChart() {
                 ticks={yAxisTicks}
                 axisLine={false}
                 tickLine={false}
-                tickMargin={isMobile ? 8 : 12}
-                tick={{ fill: "#8a8f98", fontSize: isMobile ? 11 : 14 }}
+                tickMargin={isMobile ? 10 : 14}
+                tick={{
+                  fill: "#64748b",
+                  fontSize: isMobile ? 11 : 14,
+                  fontWeight: 500,
+                }}
                 tickFormatter={formatYAxisTick}
-                width={isMobile ? 42 : 60}
+                width={isMobile ? 46 : 64}
               />
 
               <Tooltip content={<CustomTooltip />} cursor={false} />
@@ -179,13 +186,22 @@ function IncomeExpensesChart() {
               >
                 <LabelList
                   dataKey="expenses"
-                  position="top"
-                  formatter={formatPointLabel}
-                  offset={isMobile ? 8 : 12}
-                  style={{
-                    fill: "#6f7680",
-                    fontSize: isMobile ? 11 : 13,
-                    fontWeight: 600,
+                  content={({ x, y, width, value, index }) => {
+                    const month = chartData[index]?.month;
+                    const isProblemPoint = month === "April" && value >= 1000;
+
+                    return (
+                      <text
+                        x={isProblemPoint ? x + width / 2 + 18 : x + width / 2}
+                        y={isProblemPoint ? y - 8 : y - 10}
+                        textAnchor="middle"
+                        fill="#6f7680"
+                        fontSize={isMobile ? 11 : 13}
+                        fontWeight={600}
+                      >
+                        {formatPointLabel(value)}
+                      </text>
+                    );
                   }}
                 />
               </Area>
