@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound/NotFound.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import About from "./pages/About/About.jsx"
 import Support from "./pages/Support/Support";
+import Contact from "./pages/Contact/Contact";
 import TermOfUse from "./pages/TermOfUse/TermOfUse";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<About />} />
         <Route path="/notfound" element={<NotFound />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/support" element={<Support />} />
         <Route path="/terms-of-use" element={<TermOfUse />} />
       </Routes>

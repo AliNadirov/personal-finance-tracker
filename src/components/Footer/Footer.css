@@ -4,12 +4,12 @@
   align-items: center;
   gap: 16px;
   width: 100%;
-  margin-top: 14px;
+  margin-top: 24px;
   padding: 16px 24px;
-  background: rgba(255, 255, 255, 0.75);
+  background: #ffffffcc;
   border-top: 1px solid #e5e7eb;
   box-sizing: border-box;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(4px);
 }
 
 .dashboard-footer-left {
@@ -34,7 +34,7 @@
 .dashboard-footer-links {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
@@ -49,6 +49,12 @@
 .dashboard-footer-links a:hover {
   color: #f59e0b;
   transform: translateY(-1px);
+}
+
+.dashboard-footer-links a:focus-visible {
+  outline: 2px solid #f59e0b;
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 @media (max-width: 768px) {

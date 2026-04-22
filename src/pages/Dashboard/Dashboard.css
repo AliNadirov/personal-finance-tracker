@@ -23,6 +23,7 @@
   align-items: start;
   width: 100%;
   box-sizing: border-box;
+  flex: 1;
 }
 
 .dashboard-content > * {
