@@ -1,21 +1,21 @@
-.terms-page {
+.privacy-page {
   min-height: 100vh;
   padding: 56px 20px;
   background: linear-gradient(180deg, #f4f7fb 0%, #eef3f9 100%);
   font-family: "Inter", sans-serif;
 }
 
-.terms-shell {
+.privacy-shell {
   max-width: 880px;
   margin: 0 auto;
 }
 
-.terms-header {
+.privacy-header {
   text-align: center;
   margin-bottom: 28px;
 }
 
-.terms-badge {
+.privacy-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -29,7 +29,7 @@
   margin-bottom: 16px;
 }
 
-.terms-title {
+.privacy-title {
   margin: 0;
   color: #0f172a;
   font-size: clamp(2rem, 4vw, 2.9rem);
@@ -37,7 +37,7 @@
   line-height: 1.15;
 }
 
-.terms-subtitle {
+.privacy-subtitle {
   max-width: 640px;
   margin: 14px auto 10px;
   color: #5b6475;
@@ -45,14 +45,14 @@
   line-height: 1.7;
 }
 
-.terms-date {
+.privacy-date {
   margin: 0;
   color: #7b8494;
   font-size: 0.95rem;
   font-weight: 500;
 }
 
-.terms-card {
+.privacy-card {
   background: #ffffff;
   border: 1px solid rgba(15, 23, 42, 0.06);
   border-radius: 28px;
@@ -60,21 +60,21 @@
   padding: 36px 34px;
 }
 
-.terms-section {
+.privacy-section {
   padding: 24px 0;
   border-bottom: 1px solid #eef2f7;
 }
 
-.terms-section:first-child {
+.privacy-section:first-child {
   padding-top: 0;
 }
 
-.terms-section:last-of-type {
+.privacy-section:last-of-type {
   border-bottom: none;
   padding-bottom: 0;
 }
 
-.terms-section-title {
+.privacy-section-title {
   margin: 0 0 14px;
   color: #004aad;
   font-size: 1.3rem;
@@ -82,39 +82,39 @@
   line-height: 1.35;
 }
 
-.terms-section-content p {
+.privacy-section-content p {
   margin: 0 0 14px;
   color: #475569;
   font-size: 1rem;
   line-height: 1.85;
 }
 
-.terms-section-content p:last-child {
+.privacy-section-content p:last-child {
   margin-bottom: 0;
 }
 
-.terms-list {
+.privacy-list {
   margin: 0 0 16px 0;
   padding-left: 20px;
   color: #475569;
 }
 
-.terms-list li {
+.privacy-list li {
   margin-bottom: 10px;
   line-height: 1.75;
 }
 
-.terms-link {
+.privacy-link {
   color: #004aad;
   font-weight: 600;
   text-decoration: none;
 }
 
-.terms-link:hover {
+.privacy-link:hover {
   text-decoration: underline;
 }
 
-.terms-actions {
+.privacy-actions {
   display: flex;
   justify-content: flex-start;
   margin-top: 34px;
@@ -122,7 +122,7 @@
   border-top: 1px solid #eef2f7;
 }
 
-.terms-back-btn {
+.privacy-back-btn {
   border: none;
   border-radius: 14px;
   background: linear-gradient(135deg, #004aad 0%, #2563eb 100%);
@@ -135,69 +135,69 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
-.terms-back-btn:hover {
+.privacy-back-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 14px 28px rgba(0, 74, 173, 0.28);
   opacity: 0.98;
 }
 
-.terms-back-btn:active {
+.privacy-back-btn:active {
   transform: translateY(0);
 }
 
 @media (max-width: 768px) {
-  .terms-page {
+  .privacy-page {
     padding: 36px 16px;
   }
 
-  .terms-card {
+  .privacy-card {
     padding: 28px 22px;
     border-radius: 22px;
   }
 
-  .terms-section {
+  .privacy-section {
     padding: 20px 0;
   }
 
-  .terms-section-title {
+  .privacy-section-title {
     font-size: 1.15rem;
   }
 
-  .terms-section-content p,
-  .terms-list li {
+  .privacy-section-content p,
+  .privacy-list li {
     font-size: 0.96rem;
     line-height: 1.75;
   }
 
-  .terms-actions {
+  .privacy-actions {
     margin-top: 28px;
     padding-top: 22px;
   }
 
-  .terms-back-btn {
+  .privacy-back-btn {
     width: 100%;
     justify-content: center;
   }
 }
 
 @media (max-width: 480px) {
-  .terms-title {
+  .privacy-title {
     font-size: 1.85rem;
   }
 
-  .terms-subtitle {
+  .privacy-subtitle {
     font-size: 0.95rem;
   }
 
-  .terms-card {
+  .privacy-card {
     padding: 24px 18px;
   }
 
-  .terms-section-title {
+  .privacy-section-title {
     font-size: 1.05rem;
   }
 
-  .terms-back-btn {
+  .privacy-back-btn {
     font-size: 0.94rem;
     padding: 12px 18px;
   }

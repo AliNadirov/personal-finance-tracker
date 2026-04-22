@@ -1,132 +1,211 @@
 import "./TermOfUse.css";
+import { useNavigate } from "react-router-dom";
 
-const TermOfUse = () => {
-  const handleBack = () => {
-    window.location.href = "/dashboard";
-  };
-
-  return (
-    <div className="terms-container">
-      <h1 className="terms-title">Terms of Use</h1>
-      <p className="terms-date">Last Updated: December 2025</p>
-
-      <section>
-        <h2>1. Introduction</h2>
+const termsSections = [
+  {
+    title: "1. Introduction",
+    content: (
+      <>
         <p>
-          Welcome to <strong>BudgetBee</strong> — a personal finance tracker designed to help you manage your
-          income, expenses, and savings more efficiently. These Terms of Use (“Terms”) govern your access
-          to and use of BudgetBee's website, application, and related services (collectively, the “Service”).
-          By creating an account or using BudgetBee, you agree to be bound by these Terms and our Privacy Policy.
-          If you do not agree, please do not use our Service.
+          Welcome to <strong>BudgetBee</strong>, a personal finance tracker designed to help users
+          manage income, expenses, savings, and budgeting more efficiently. These Terms of Use
+          (“Terms”) govern your access to and use of the BudgetBee website, application, and related
+          services (collectively, the “Service”).
         </p>
-      </section>
-
-      <section>
-        <h2>2. Eligibility and Account</h2>
         <p>
-          To use BudgetBee, you must be at least 16 years old or have parental consent. You are responsible
-          for maintaining the confidentiality of your account credentials and for all activity that occurs
-          under your account. BudgetBee is intended for <strong>personal use only</strong>; commercial or
-          automated data entry is not permitted.
+          By creating an account or using BudgetBee, you agree to be bound by these Terms and our
+          Privacy Policy. If you do not agree, you should not use the Service.
         </p>
-      </section>
-
-      <section>
-        <h2>3. User Responsibilities</h2>
+      </>
+    ),
+  },
+  {
+    title: "2. Eligibility and Account",
+    content: (
+      <>
         <p>
-          You agree to use BudgetBee solely for lawful purposes and in accordance with these Terms.
-          You must not:
+          To use BudgetBee, you must be at least 16 years old or have appropriate parental consent.
+          You are responsible for maintaining the confidentiality of your account credentials and for
+          all activity that occurs under your account.
         </p>
-        <ul>
-          <li>Enter or share false, misleading, or fraudulent data;</li>
-          <li>Attempt to access another user's data without permission;</li>
-          <li>Interfere with or disrupt the Service or its security features;</li>
-          <li>Use BudgetBee to promote or engage in illegal activity.</li>
+        <p>
+          BudgetBee is intended for <strong>personal use only</strong>. Commercial misuse, automated
+          abuse, or unauthorized access attempts are strictly prohibited.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "3. User Responsibilities",
+    content: (
+      <>
+        <p>
+          You agree to use BudgetBee lawfully and responsibly. In particular, you must not:
+        </p>
+        <ul className="terms-list">
+          <li>Enter false, misleading, or fraudulent information;</li>
+          <li>Attempt to access another user's account or data without permission;</li>
+          <li>Interfere with the Service, infrastructure, or security systems;</li>
+          <li>Use BudgetBee to support illegal, abusive, or harmful activity.</li>
         </ul>
         <p>
-          You are solely responsible for the accuracy of the data you enter (e.g., income, expenses, or budget goals).
-          BudgetBee provides financial tracking tools but does not offer professional financial, tax, or investment advice.
+          You remain responsible for the accuracy of the financial information you enter, including
+          income, expenses, budgets, and savings goals.
         </p>
-      </section>
+      </>
+    ),
+  },
+  {
+    title: "4. Data and Privacy",
+    content: (
+      <>
+        <p>
+          We value user privacy and take reasonable steps to protect personal information. Financial
+          data entered into BudgetBee is used to provide insights, summaries, charts, and budgeting
+          functionality within the user experience.
+        </p>
+        <p>
+          We do not sell personal financial information. For more information about how data is
+          collected, used, and safeguarded, please review our{" "}
+          <a className="terms-link" href="/privacy-policy">
+            Privacy Policy
+          </a>
+          .
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "5. Accuracy and Disclaimer",
+    content: (
+      <>
+        <p>
+          BudgetBee is intended as a financial tracking and self-management tool. Reports, analytics,
+          and projections depend on the accuracy and completeness of the data provided by the user.
+        </p>
+        <p>
+          BudgetBee does not guarantee that calculations, forecasts, or summaries will always be
+          error-free, and the Service does not constitute financial, tax, legal, or investment advice.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "6. Security",
+    content: (
+      <>
+        <p>
+          We take reasonable administrative and technical measures to protect user accounts and data.
+          However, no system can be guaranteed to be completely secure.
+        </p>
+        <p>
+          Users are responsible for maintaining the security of their devices, passwords, and login
+          credentials. BudgetBee will never request passwords or sensitive financial credentials by
+          email.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "7. Service Changes",
+    content: (
+      <>
+        <p>
+          BudgetBee may update, modify, suspend, or discontinue features at any time to improve the
+          platform, maintain security, or support product development.
+        </p>
+        <p>
+          When these Terms are updated, the revised version will be reflected by the “Last updated”
+          date shown on this page. Continued use of the Service after updates means you accept the
+          revised Terms.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "8. Limitation of Liability",
+    content: (
+      <>
+        <p>
+          To the maximum extent permitted by law, BudgetBee and its developers shall not be liable for
+          indirect, incidental, special, consequential, or exemplary damages arising from the use of,
+          or inability to use, the Service.
+        </p>
+        <p>
+          This includes, without limitation, loss of data, lost profits, financial inaccuracies, or
+          interruption of service.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "9. Termination",
+    content: (
+      <>
+        <p>
+          We reserve the right to suspend or terminate access to BudgetBee where misuse, abuse,
+          security risks, or violations of these Terms are identified.
+        </p>
+        <p>
+          Upon termination, certain account data may be removed or retained as required for legal,
+          operational, or security purposes.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "10. Contact",
+    content: (
+      <>
+        <p>
+          For questions regarding these Terms or the BudgetBee Service, please contact our support
+          team at{" "}
+          <a className="terms-link" href="mailto:support@budgetbee.com">
+            support@budgetbee.com
+          </a>
+          .
+        </p>
+      </>
+    ),
+  },
+];
 
-      <section>
-        <h2>4. Data and Privacy</h2>
-        <p>
-          We value your privacy and are committed to protecting your personal information.
-          All financial data you manually input is stored securely and used only to provide you with
-          insights, charts, and summaries within your account.
-        </p>
-        <p>
-          We do not share, sell, or publish your personal financial information to third parties without your consent,
-          except as required by law. Please read our <strong>Privacy Policy</strong> for more details on how we
-          collect, store, and protect your data.
-        </p>
-      </section>
+const TermOfUse = () => {
+  const navigate = useNavigate();
 
-      <section>
-        <h2>5. Accuracy and Disclaimer</h2>
-        <p>
-          BudgetBee is designed to assist you in tracking and analyzing your personal finances.
-          However, the accuracy of your reports and insights depends on the data you provide.
-          We do not guarantee that any calculations, predictions, or summaries generated by the Service
-          will be completely error-free or suitable for official financial purposes.
-        </p>
-        <p>
-          You acknowledge that BudgetBee is a self-help tool and <strong>not a substitute</strong> for
-          professional financial advice.
-        </p>
-      </section>
+  return (
+    <main className="terms-page">
+      <div className="terms-shell">
+        <div className="terms-header">
+          <span className="terms-badge">Legal</span>
+          <h1 className="terms-title">Terms of Use</h1>
+          <p className="terms-subtitle">
+            These terms explain the rules, responsibilities, and limitations that apply when using
+            BudgetBee.
+          </p>
+          <p className="terms-date">Last updated: December 2025</p>
+        </div>
 
-      <section>
-        <h2>6. Security</h2>
-        <p>
-          We take reasonable measures to secure your account and data; however, no system is completely
-          free from risk. You are responsible for maintaining the security of your device and password.
-          BudgetBee will never ask for your password or financial credentials via email.
-        </p>
-      </section>
+        <div className="terms-card">
+          {termsSections.map((section) => (
+            <section className="terms-section" key={section.title}>
+              <h2 className="terms-section-title">{section.title}</h2>
+              <div className="terms-section-content">{section.content}</div>
+            </section>
+          ))}
 
-      <section>
-        <h2>7. Modifications to the Service</h2>
-        <p>
-          We may modify, suspend, or discontinue certain features of BudgetBee at any time without prior notice.
-          Updates to these Terms will be reflected by the “Last Updated” date at the top of this page.
-          Your continued use of the Service after such updates constitutes your acceptance of the revised Terms.
-        </p>
-      </section>
-
-      <section>
-        <h2>8. Limitation of Liability</h2>
-        <p>
-          To the maximum extent permitted by law, BudgetBee and its developers shall not be liable for any
-          direct, indirect, incidental, or consequential damages resulting from your use of the Service —
-          including but not limited to loss of data, profits, or financial accuracy.
-        </p>
-      </section>
-
-      <section>
-        <h2>9. Termination</h2>
-        <p>
-          We reserve the right to suspend or terminate your access to BudgetBee at our discretion,
-          especially in cases of misuse, security concerns, or violation of these Terms.
-          Upon termination, your account data may be deleted in accordance with our data retention policy.
-        </p>
-      </section>
-
-      <section>
-        <h2>10. Contact</h2>
-        <p>
-          For questions or concerns regarding these Terms or the BudgetBee Service, contact our support team at{" "}
-          <a href="mailto:support@budgetbee.com">support@budgetbee.com</a>.
-        </p>
-      </section>
-
-     <div className="terms-actions">
-        <button className="term-of-use-back-btn" onClick={handleBack}>
-          ← Back to Dashboard
-        </button>
+          <div className="terms-actions">
+            <button
+              className="terms-back-btn"
+              type="button"
+              onClick={() => navigate("/dashboard")}
+            >
+              ← Back to Dashboard
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -214,7 +214,7 @@ const Support = () => {
                         >
                           <span>{item.question}</span>
                           <span className="support-faq-icon">
-                            {isOpen ? "−" : "+"}
+                            {isOpen ? "-" : "+"}
                           </span>
                         </button>
 
@@ -244,7 +244,7 @@ const Support = () => {
           <div className="support-contact-content">
             <h2>Still need help?</h2>
             <p>
-              If you couldn’t find the answer you were looking for, our team is
+              If you couldn't find the answer you were looking for, our team is
               ready to hear from you.
             </p>
           </div>

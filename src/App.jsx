@@ -12,6 +12,7 @@ import About from "./pages/About/About.jsx"
 import Support from "./pages/Support/Support";
 import Contact from "./pages/Contact/Contact";
 import TermOfUse from "./pages/TermOfUse/TermOfUse";
+import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy.jsx";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/notfound" element={<NotFound />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/support" element={<Support />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-use" element={<TermOfUse />} />
       </Routes>
     </Router>
