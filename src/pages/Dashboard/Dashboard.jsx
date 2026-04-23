@@ -69,12 +69,13 @@ function Dashboard() {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const openSidebar = () => setIsSidebarOpen(true);
+  const closeSidebar = () => setIsSidebarOpen(false);
 
   return (
     <div className="dashboard">
-      <Header onMenuClick={toggleSidebar} />
-      <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
+      <Header onMenuClick={openSidebar} />
+      <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
       <main className="dashboard-content">
         <section className="charts">
