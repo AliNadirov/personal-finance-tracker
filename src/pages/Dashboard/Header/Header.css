@@ -24,7 +24,7 @@
   padding: 0;
   background: transparent;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
@@ -89,13 +89,17 @@
   padding: 0;
   background: transparent;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
+.settings-button:hover,
+.settings-button.active {
+  background-color: rgba(15, 23, 42, 0.05);
+}
+
 .settings-button:hover {
-  background-color: rgba(15, 23, 42, 0.04);
   transform: scale(1.03);
 }
 

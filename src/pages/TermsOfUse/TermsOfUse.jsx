@@ -1,4 +1,4 @@
-import "./TermOfUse.css";
+import "./TermsOfUse.css";
 import { useNavigate } from "react-router-dom";
 
 const termsSections = [

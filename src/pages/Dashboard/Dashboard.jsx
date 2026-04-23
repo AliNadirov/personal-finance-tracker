@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import Header from "../../components/Header/Header";
+import Header from "./Header/Header";
 import Budget from "../Dashboard/Budget/Budget";
 import RecentTransactions from "../Dashboard/RecentTransactions/RecentTransactions";
 import Summary from "../Dashboard/Summary/Summary";
-import Footer from "../../components/Footer/Footer";
+import Footer from "./Footer/Footer";
 import CalendarSummary from "./CalendarSummary/CalendarSummary";
 import IncomeExpensesChart from "./IncomeExpensesChart/IncomeExpensesChart";
 import PieChartBox from "./PieChartBox/PieChartBox";

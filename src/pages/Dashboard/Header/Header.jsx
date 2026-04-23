@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import Vector from "../../assets/images/Vector.png";
-import stripes from "../../assets/images/button-stripe.png";
+import Vector from "../../../assets/images/Vector.png";
+import stripes from "../../../assets/images/button-stripe.png";
 import SettingsMenu from "./SettingsMenu/SettingsMenu";
-import { getCurrentUser } from "../../services/storage.js";
+import { getCurrentUser } from "../../../services/storage";
 import "./Header.css";
 
 function Header({ onMenuClick }) {
@@ -45,7 +45,7 @@ function Header({ onMenuClick }) {
           type="button"
           className="menu-button"
           onClick={onMenuClick}
-          aria-label="Open menu"
+          aria-label="Open sidebar"
         >
           <img className="stripes" src={stripes} alt="" />
         </button>
@@ -61,18 +61,15 @@ function Header({ onMenuClick }) {
       <div ref={menuRef} className="settings-wrapper">
         <button
           type="button"
-          className="settings-button"
+          className={`settings-button ${menuOpen ? "active" : ""}`}
           onClick={() => setMenuOpen((prev) => !prev)}
-          aria-label="Open settings menu"
+          aria-label="Open account menu"
+          aria-expanded={menuOpen}
         >
-          <img
-            src={Vector}
-            alt=""
-            className="settings-icon"
-          />
+          <img src={Vector} alt="" className="settings-icon" />
         </button>
 
-        {menuOpen && <SettingsMenu />}
+        {menuOpen && <SettingsMenu onClose={() => setMenuOpen(false)} />}
       </div>
     </header>
   );

@@ -1,0 +1,152 @@
+.settings-wrapper {
+  display: flex;
+  margin-left: auto;
+}
+
+.settings-menu {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 320px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.settings-menu h2 {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: #0f172a;
+}
+
+.settings-menu p {
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 18px;
+  word-break: break-word;
+}
+
+.settings-menu .menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.settings-menu .menu-buttons button {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+  line-height: 1.2;
+}
+
+.settings-menu .menu-buttons .profile-btn {
+  background-color: #4f46e5;
+  color: #fff;
+}
+
+.settings-menu .menu-buttons .profile-btn:hover {
+  background-color: #4338ca;
+}
+
+.settings-menu .menu-buttons .logout-btn {
+  background-color: #f59e0b;
+  color: #fff;
+}
+
+.settings-menu .menu-buttons .logout-btn:hover {
+  background-color: #d97706;
+}
+
+.settings-menu .menu-footer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #eef2f7;
+}
+
+.settings-menu .menu-footer button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 12px;
+  color: #64748b;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.settings-menu .menu-footer button:hover {
+  color: #0f172a;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .settings-menu {
+    width: 300px;
+    padding: 18px;
+  }
+
+  .settings-menu h2 {
+    font-size: 17px;
+  }
+
+  .settings-menu p {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  .settings-menu .menu-buttons button {
+    min-height: 42px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-menu {
+    width: min(88vw, 320px);
+    right: 0;
+    padding: 18px;
+  }
+
+  .settings-menu .menu-footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 10px;
+  }
+
+  .settings-menu .menu-footer button {
+    font-size: 12px;
+  }
+}

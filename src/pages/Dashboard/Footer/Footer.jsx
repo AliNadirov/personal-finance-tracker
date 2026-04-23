@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logofooter from "../../assets/images/main_logo.svg";
+import logofooter from "../../../assets/images/main_logo.svg";
 import "./Footer.css";
 
 function Footer() {
@@ -15,11 +15,9 @@ function Footer() {
       </div>
 
       <div className="dashboard-footer-links">
-        <Link to="/about">About</Link>
         <Link to="/support">Support</Link>
-        <Link to="/contact">Contact</Link>
-        <Link to="/privacy-policy">Privacy</Link>
-        <Link to="/terms-of-use">Terms</Link>
+        <Link to="/privacy-policy">Privacy Policy</Link>
+        <Link to="/terms-of-use">Terms of Use</Link>
       </div>
     </footer>
   );

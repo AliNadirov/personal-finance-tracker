@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import backBtn from "../../assets/icons/baseline-arrow-back.png";
 import CustomSelect from "./CustomSelect/CustomSelect";
-import "./Transaction.css";
+import "./Transactions.css";
 
 const Transaction = () => {
     const navigate = useNavigate();
