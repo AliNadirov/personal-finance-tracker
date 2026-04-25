@@ -4,6 +4,7 @@ import mockTransactions from "../data/mock_transactions.json";
 const usersKey = "users";
 const currentUserKey = "currentUser";
 const transactionsKey = "transactions";
+const budgetPlanKey = "budgetPlan";
 
 export async function getUsers() {
   const storedUsers = localStorage.getItem(usersKey);
@@ -79,4 +80,18 @@ export function getAllTransactions() {
 
     return String(b.id).localeCompare(String(a.id));
   });
+}
+
+export function getBudgetPlan() {
+  const stored = localStorage.getItem(budgetPlanKey);
+
+  if (stored) {
+    return JSON.parse(stored);
+  }
+
+  return null;
+}
+
+export function saveBudgetPlan(plan) {
+  localStorage.setItem(budgetPlanKey, JSON.stringify(plan));
 }

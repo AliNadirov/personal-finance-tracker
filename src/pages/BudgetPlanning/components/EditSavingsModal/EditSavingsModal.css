@@ -1,0 +1,102 @@
+.savings-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.42);
+  backdrop-filter: blur(3px);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.savings-modal {
+  width: 100%;
+  max-width: 500px;
+  background: #ffffff;
+  border-radius: 26px;
+  border: 1px solid #e2e8f0;
+  padding: 24px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.24);
+}
+
+.savings-modal-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.savings-modal-header p {
+  margin: 0 0 6px;
+  color: #059669;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.savings-modal-header h3 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1.45rem;
+  font-weight: 900;
+}
+
+.savings-modal-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.savings-modal-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.savings-modal-fields span {
+  color: #475569;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.savings-modal-fields input {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #dbe3ee;
+  border-radius: 14px;
+  padding: 0 14px;
+  font-size: 15px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.savings-modal-fields input:focus {
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
+}
+
+.savings-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+@media (max-width: 520px) {
+  .savings-modal {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .savings-modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-cancel-btn,
+  .modal-save-btn {
+    width: 100%;
+  }
+}

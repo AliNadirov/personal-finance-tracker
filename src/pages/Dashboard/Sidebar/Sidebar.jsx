@@ -39,16 +39,6 @@ function Sidebar({ isOpen, onClose }) {
 
           <nav className="sidebar-nav">
             <NavLink
-              to="/transactions"
-              className={({ isActive }) =>
-                `sidebar-link ${isActive ? "active" : ""}`
-              }
-              onClick={handleNavClick}
-            >
-              <span>Transactions</span>
-            </NavLink>
-
-            <NavLink
               to="/categories"
               className={({ isActive }) =>
                 `sidebar-link ${isActive ? "active" : ""}`
@@ -66,6 +56,16 @@ function Sidebar({ isOpen, onClose }) {
               onClick={handleNavClick}
             >
               <span>Additional Income</span>
+            </NavLink>
+
+            <NavLink
+              to="/budget-planning"
+              className={({ isActive }) =>
+                `sidebar-link ${isActive ? "active" : ""}`
+              }
+              onClick={handleNavClick}
+            >
+              <span>Budget Planning</span>
             </NavLink>
           </nav>
         </div>
