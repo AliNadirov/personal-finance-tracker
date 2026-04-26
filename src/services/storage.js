@@ -1,17 +1,97 @@
 import mockUsers from "../data/mockUsers.json";
 import mockTransactions from "../data/mock_transactions.json";
+import mockMainIncomeSources from "../data/mockMainIncomeSources.json";
+import mockAdditionalIncome from "../data/mockAdditionalIncome.json";
 
 const usersKey = "users";
 const currentUserKey = "currentUser";
 const transactionsKey = "transactions";
 const budgetPlanKey = "budgetPlan";
 
+function getUserIncomeDefaults(userId = "default") {
+  const mainIncomeSources = mockMainIncomeSources.filter(
+    (income) => income.userId === userId
+  );
+
+  const additionalIncome = mockAdditionalIncome.filter(
+    (income) => income.userId === userId
+  );
+
+  const defaultMainIncomeSources = mockMainIncomeSources.filter(
+    (income) => income.userId === "default"
+  );
+
+  const defaultAdditionalIncome = mockAdditionalIncome.filter(
+    (income) => income.userId === "default"
+  );
+
+  return {
+    mainIncomeSources:
+      mainIncomeSources.length > 0 ? mainIncomeSources : defaultMainIncomeSources,
+    additionalIncome:
+      additionalIncome.length > 0 ? additionalIncome : defaultAdditionalIncome,
+  };
+}
+
+function calculateMonthlyIncome(mainIncomeSources = [], additionalIncome = []) {
+  return [...mainIncomeSources, ...additionalIncome].reduce(
+    (total, income) => total + Number(income.monthlyIncome || 0),
+    0
+  );
+}
+
+function calculateRecommendedMonthlyBudget(mainIncomeSources = [], additionalIncome = []) {
+  const monthlyIncome = calculateMonthlyIncome(mainIncomeSources, additionalIncome);
+  return Math.round(monthlyIncome * 0.7);
+}
+
+function normalizeUser(user = {}) {
+  const userId = user.id || "default";
+  const incomeDefaults = getUserIncomeDefaults(userId);
+
+  const cleanMainIncomeSources = Array.isArray(user.mainIncomeSources)
+    ? user.mainIncomeSources.filter((income) => income.userId === userId)
+    : [];
+
+  const cleanAdditionalIncome = Array.isArray(user.additionalIncome)
+    ? user.additionalIncome.filter((income) => income.userId === userId)
+    : [];
+
+  const mainIncomeSources =
+    cleanMainIncomeSources.length > 0
+      ? cleanMainIncomeSources
+      : incomeDefaults.mainIncomeSources;
+
+  const additionalIncome =
+    cleanAdditionalIncome.length > 0
+      ? cleanAdditionalIncome
+      : incomeDefaults.additionalIncome;
+
+  const recommendedBudget = calculateRecommendedMonthlyBudget(
+    mainIncomeSources,
+    additionalIncome
+  );
+
+  return {
+    name: user.name || user.displayName || "",
+    email: user.email || "",
+    currency: user.currency || "USD",
+    ...user,
+    id: userId,
+    mainIncomeSources,
+    additionalIncome,
+    monthlyBudget: Number(user.monthlyBudget || recommendedBudget),
+  };
+}
+
 export async function getUsers() {
   const storedUsers = localStorage.getItem(usersKey);
+
   if (storedUsers) {
-    return JSON.parse(storedUsers);
+    return JSON.parse(storedUsers).map((user) => normalizeUser(user));
   }
-  return mockUsers;
+
+  return mockUsers.map((user) => normalizeUser(user));
 }
 
 export function saveUsers(users) {
@@ -23,11 +103,11 @@ export async function addUser(newUser) {
   const exists = users.find((user) => user.email === newUser.email);
 
   if (!exists) {
-    const userWithDefaults = {
+    const userWithDefaults = normalizeUser({
       ...newUser,
-      monthlyBudget: Number(newUser.monthlyBudget ?? 10000),
+      id: newUser.id || `user-${Date.now()}`,
       currency: newUser.currency || "USD",
-    };
+    });
 
     users.push(userWithDefaults);
     saveUsers(users);
@@ -43,14 +123,7 @@ export async function findUserByEmail(email) {
 }
 
 export function setCurrentUser(user) {
-  const normalizedUser = {
-    name: user.name || user.displayName || "",
-    email: user.email || "",
-    monthlyBudget: Number(user.monthlyBudget ?? 10000),
-    currency: user.currency || "USD",
-    ...user,
-  };
-
+  const normalizedUser = normalizeUser(user);
   localStorage.setItem(currentUserKey, JSON.stringify(normalizedUser));
 }
 
@@ -58,14 +131,15 @@ export function getCurrentUser() {
   const storedUser = localStorage.getItem(currentUserKey);
 
   if (storedUser) {
-    return JSON.parse(storedUser);
+    return normalizeUser(JSON.parse(storedUser));
   }
 
-  return {
-    ...mockUsers[0],
-    monthlyBudget: Number(mockUsers[0]?.monthlyBudget ?? 0),
-    currency: mockUsers[0]?.currency || "USD",
-  };
+  return normalizeUser({
+    id: "default",
+    name: "Demo User",
+    email: "demo@budgetbee.com",
+    currency: "USD",
+  });
 }
 
 export function clearCurrentUser() {
@@ -74,9 +148,11 @@ export function clearCurrentUser() {
 
 export function getTransactions() {
   const stored = localStorage.getItem(transactionsKey);
+
   if (stored) {
     return JSON.parse(stored);
   }
+
   return [];
 }
 

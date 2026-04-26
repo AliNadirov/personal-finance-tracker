@@ -15,13 +15,26 @@ import "./Dashboard.css";
 function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [userBudget, setUserBudget] = useState(0);
+  const [totalMonthlyIncome, setTotalMonthlyIncome] = useState(0);
   const [latestMonthExpenses, setLatestMonthExpenses] = useState(0);
 
-  const loadUserBudget = () => {
+  const loadUserFinancials = () => {
     const currentUser = getCurrentUser();
+
     const monthlyBudget = Number(currentUser?.monthlyBudget ?? 0);
 
+    const mainIncomeTotal = (currentUser?.mainIncomeSources || []).reduce(
+      (total, income) => total + Number(income.monthlyIncome || 0),
+      0
+    );
+
+    const additionalIncomeTotal = (currentUser?.additionalIncome || []).reduce(
+      (total, income) => total + Number(income.monthlyIncome || 0),
+      0
+    );
+
     setUserBudget(monthlyBudget);
+    setTotalMonthlyIncome(mainIncomeTotal + additionalIncomeTotal);
   };
 
   const calculateLatestMonthExpenses = () => {
@@ -55,12 +68,12 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    loadUserBudget();
+    loadUserFinancials();
     calculateLatestMonthExpenses();
 
     const handleStorageChange = (e) => {
       if (e.key === "currentUser" || e.key === "transactions") {
-        loadUserBudget();
+        loadUserFinancials();
         calculateLatestMonthExpenses();
       }
     };
@@ -96,12 +109,13 @@ function Dashboard() {
           <div className="budget-panel">
             <div className="summary-boxes">
               <Summary
-                title="Budget"
-                value={`$${userBudget.toFixed(2)}`}
+                title="Total Income"
+                value={`$${totalMonthlyIncome.toFixed(2)}`}
                 type="income"
               />
+
               <Summary
-                title="Spent"
+                title="Total Expenses"
                 value={`$${latestMonthExpenses.toFixed(2)}`}
                 type="expenses"
               />

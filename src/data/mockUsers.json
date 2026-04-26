@@ -1,12 +1,12 @@
 [
-  { "id": 1, "name": "Alice Johnson", "email": "alice@example.com", "password": "Pass1234", "monthlyBudget": 10000, "currency": "USD" },
-  { "id": 2, "name": "Bob Smith", "email": "bob@example.com", "password": "BobPass456", "monthlyBudget": 8500, "currency": "USD" },
-  { "id": 3, "name": "Charlie Lee", "email": "charlie@example.com", "password": "Charlie789", "monthlyBudget": 7200, "currency": "USD" },
-  { "id": 4, "name": "Diana Prince", "email": "diana@example.com", "password": "Wonder123", "monthlyBudget": 12000, "currency": "USD" },
-  { "id": 5, "name": "Ethan Hunt", "email": "ethan@example.com", "password": "Mission456", "monthlyBudget": 9500, "currency": "USD" },
-  { "id": 6, "name": "Fiona Gallagher", "email": "fiona@example.com", "password": "Fiona789", "monthlyBudget": 6800, "currency": "USD" },
-  { "id": 7, "name": "George Martin", "email": "george@example.com", "password": "George321", "monthlyBudget": 11000, "currency": "USD" },
-  { "id": 8, "name": "Hannah Brown", "email": "hannah@example.com", "password": "Hannah654", "monthlyBudget": 7600, "currency": "USD" },
-  { "id": 9, "name": "Ian Wright", "email": "ian@example.com", "password": "Ian987", "monthlyBudget": 9000, "currency": "USD" },
-  { "id": 10, "name": "Julia Roberts", "email": "julia@example.com", "password": "Julia123", "monthlyBudget": 8300, "currency": "USD" }
+  { "id": 1, "name": "Ethan Walker", "email": "ethan@example.com", "password": "Pass1234", "currency": "USD" },
+  { "id": 2, "name": "Olivia Bennett", "email": "olivia@example.com", "password": "Olivia456", "currency": "USD" },
+  { "id": 3, "name": "James Carter", "email": "james@example.com", "password": "James789", "currency": "USD" },
+  { "id": 4, "name": "William Thompson", "email": "william@example.com", "password": "William123", "currency": "USD" },
+  { "id": 5, "name": "Emily Wilson", "email": "emily@example.com", "password": "Emily456", "currency": "USD" },
+  { "id": 6, "name": "Min-jun Kim", "email": "minjun@example.com", "password": "Minjun789", "currency": "USD" },
+  { "id": 7, "name": "Seo-yeon Park", "email": "seoyeon@example.com", "password": "Seoyeon321", "currency": "USD" },
+  { "id": 8, "name": "Ji-hoon Lee", "email": "jihoon@example.com", "password": "Jihoon654", "currency": "USD" },
+  { "id": 9, "name": "Wei Zhang", "email": "wei@example.com", "password": "Wei987", "currency": "USD" },
+  { "id": 10, "name": "Xiao Chen", "email": "xiao@example.com", "password": "Xiao123", "currency": "USD" }
 ]

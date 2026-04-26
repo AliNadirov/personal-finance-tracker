@@ -49,13 +49,13 @@ function Sidebar({ isOpen, onClose }) {
             </NavLink>
 
             <NavLink
-              to="/settings/additional-income"
+              to="/settings/income-sources"
               className={({ isActive }) =>
                 `sidebar-link ${isActive ? "active" : ""}`
               }
               onClick={handleNavClick}
             >
-              <span>Additional Income</span>
+              <span>Income Sources</span>
             </NavLink>
 
             <NavLink

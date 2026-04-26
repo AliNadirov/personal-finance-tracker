@@ -1,14 +1,47 @@
-import { useState, useEffect } from "react";
-import { getTransactions } from "../../../services/storage";
-import mockTransactions from "../../../data/mock_transactions.json";
+import { useEffect, useState } from "react";
+import {
+  getAllTransactions,
+  getBudgetPlan,
+  saveBudgetPlan,
+} from "../../../services/storage";
 import "./Budget.css";
+
+const categoryWeights = {
+  Essentials: 0.28,
+  Lifestyle: 0.14,
+  Health: 0.08,
+  Education: 0.1,
+  Travel: 0.1,
+  Family: 0.08,
+  Other: 0.02,
+};
+
+const createDefaultBudgetPlan = (monthlyBudget) => ({
+  baseMonthlyBudget: monthlyBudget,
+  categoryLimits: Object.fromEntries(
+    Object.entries(categoryWeights).map(([category, weight]) => [
+      category,
+      Math.round(monthlyBudget * weight),
+    ])
+  ),
+});
 
 function Budget({ budget = 0 }) {
   const [latestMonthTransactions, setLatestMonthTransactions] = useState([]);
+  const [categoryLimits, setCategoryLimits] = useState({});
 
   useEffect(() => {
-    const storedTransactions = getTransactions();
-    const allTransactions = [...mockTransactions, ...storedTransactions];
+    const storedPlan = getBudgetPlan();
+
+    if (!storedPlan || storedPlan.baseMonthlyBudget !== budget) {
+      const newPlan = createDefaultBudgetPlan(budget);
+      saveBudgetPlan(newPlan);
+      setCategoryLimits(newPlan.categoryLimits);
+    } else {
+      setCategoryLimits(storedPlan.categoryLimits || {});
+    }
+
+    const allTransactions = getAllTransactions();
 
     if (allTransactions.length === 0) {
       setLatestMonthTransactions([]);
@@ -33,14 +66,7 @@ function Budget({ budget = 0 }) {
     });
 
     setLatestMonthTransactions(filteredTransactions);
-  }, []);
-
-  const categories = [
-    ...new Set(latestMonthTransactions.map((transaction) => transaction.category)),
-  ];
-
-  const categoryCount = categories.length || 1;
-  const categoryBudget = budget / categoryCount;
+  }, [budget]);
 
   const totalSpent = latestMonthTransactions.reduce(
     (sum, transaction) => sum + Number(transaction.amount),
@@ -49,17 +75,21 @@ function Budget({ budget = 0 }) {
 
   const remainingBudget = Math.max(budget - totalSpent, 0);
 
-  const categoriesOverview = categories.map((categoryName) => {
+  const categoriesOverview = Object.keys(categoryLimits).map((categoryName) => {
     const categorySpent = latestMonthTransactions
       .filter((transaction) => transaction.category === categoryName)
       .reduce((sum, transaction) => sum + Number(transaction.amount), 0);
 
-    const spentPercentage =
-      categoryBudget > 0 ? Math.min((categorySpent / categoryBudget) * 100, 100) : 0;
+    const categoryBudget = Number(categoryLimits[categoryName]) || 1;
+
+    const spentPercentage = Math.min(
+      (categorySpent / categoryBudget) * 100,
+      100
+    );
 
     let statusClass = "safe";
 
-    if (spentPercentage >= 100) {
+    if (spentPercentage >= 90) {
       statusClass = "danger";
     } else if (spentPercentage >= 70) {
       statusClass = "warning";
@@ -89,7 +119,7 @@ function Budget({ budget = 0 }) {
         </div>
 
         <div className="budget-summary-item">
-          <span className="budget-summary-label">Left</span>
+          <span className="budget-summary-label">Remaining</span>
           <strong>${remainingBudget.toFixed(2)}</strong>
         </div>
       </div>

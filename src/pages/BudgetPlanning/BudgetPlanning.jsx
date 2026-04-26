@@ -31,6 +31,7 @@ const createRecommendedSavingsGoal = (monthlyBudget) => ({
 });
 
 const createDefaultBudgetPlan = (monthlyBudget) => ({
+  baseMonthlyBudget: monthlyBudget,
   categoryLimits: Object.fromEntries(
     Object.entries(categoryWeights).map(([category, weight]) => [
       category,
@@ -52,7 +53,30 @@ const BudgetPlanning = () => {
 
   const [budgetPlan, setBudgetPlan] = useState(() => {
     const storedPlan = getBudgetPlan();
-    return storedPlan || createDefaultBudgetPlan(monthlyBudget);
+    const defaultPlan = createDefaultBudgetPlan(monthlyBudget);
+
+    if (
+      !storedPlan ||
+      storedPlan.baseMonthlyBudget !== monthlyBudget ||
+      !storedPlan.categoryLimits ||
+      !storedPlan.savingsGoal
+    ) {
+      saveBudgetPlan(defaultPlan);
+      return defaultPlan;
+    }
+
+    return {
+      ...defaultPlan,
+      ...storedPlan,
+      categoryLimits: {
+        ...defaultPlan.categoryLimits,
+        ...storedPlan.categoryLimits,
+      },
+      savingsGoal: {
+        ...defaultPlan.savingsGoal,
+        ...storedPlan.savingsGoal,
+      },
+    };
   });
 
   const transactions = getAllTransactions();
@@ -82,7 +106,10 @@ const BudgetPlanning = () => {
 
   const savingsGoalProgress = {
     ...budgetPlan.savingsGoal,
-    saved: Math.min(availableToSave, Number(budgetPlan.savingsGoal.target)),
+    saved: Math.min(
+      availableToSave,
+      Number(budgetPlan.savingsGoal?.target || 0)
+    ),
   };
 
   const categorySpending = Object.keys(budgetPlan.categoryLimits).map(
