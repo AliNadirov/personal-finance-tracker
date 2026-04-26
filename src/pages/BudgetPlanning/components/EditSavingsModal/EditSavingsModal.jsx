@@ -1,9 +1,16 @@
 import { useState } from "react";
 import "./EditSavingsModal.css";
 
-const EditSavingsModal = ({ goal, recommendedGoal, onClose, onSave }) => {
-  const [title, setTitle] = useState(goal.title);
-  const [target, setTarget] = useState(String(goal.target));
+function EditSavingsModal({
+  goal,
+  recommendedGoal,
+  onClose,
+  onSave,
+}) {
+  const [title, setTitle] = useState(goal?.title || "Monthly Savings");
+  const [target, setTarget] = useState(
+    String(goal?.target || recommendedGoal?.target || "")
+  );
   const [error, setError] = useState("");
 
   const handleMoneyChange = (value) => {
@@ -14,20 +21,28 @@ const EditSavingsModal = ({ goal, recommendedGoal, onClose, onSave }) => {
   };
 
   const handleResetRecommended = () => {
-    setTitle(recommendedGoal.title);
-    setTarget(String(recommendedGoal.target));
+    setTitle(recommendedGoal?.title || "Monthly Savings");
+    setTarget(String(recommendedGoal?.target || ""));
     setError("");
   };
 
   const handleSave = () => {
-    if (!target || Number(target) <= 0) {
+    const cleanTitle = title.trim();
+    const numericTarget = Number(target);
+
+    if (!cleanTitle) {
+      setError("Goal name is required.");
+      return;
+    }
+
+    if (!target || numericTarget <= 0) {
       setError("Target amount must be greater than 0.");
       return;
     }
 
     onSave({
-      title: title.trim() || recommendedGoal.title,
-      target: Number(target),
+      title: cleanTitle,
+      target: numericTarget,
     });
   };
 
@@ -36,11 +51,16 @@ const EditSavingsModal = ({ goal, recommendedGoal, onClose, onSave }) => {
       <div className="savings-modal">
         <div className="savings-modal-header">
           <div>
-            <p>Edit Goal</p>
+            <p className="modal-label">Edit Goal</p>
             <h3>Monthly Savings Target</h3>
           </div>
 
-          <button type="button" className="modal-close-btn" onClick={onClose}>
+          <button
+            type="button"
+            className="modal-close-btn"
+            onClick={onClose}
+            aria-label="Close modal"
+          >
             ×
           </button>
         </div>
@@ -51,7 +71,11 @@ const EditSavingsModal = ({ goal, recommendedGoal, onClose, onSave }) => {
             <input
               type="text"
               value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                setError("");
+              }}
+              placeholder="Enter savings goal name"
             />
           </label>
 
@@ -61,33 +85,46 @@ const EditSavingsModal = ({ goal, recommendedGoal, onClose, onSave }) => {
               type="text"
               inputMode="decimal"
               value={target}
-              onChange={(event) => handleMoneyChange(event.target.value)}
+              onChange={(e) => handleMoneyChange(e.target.value)}
+              placeholder="Enter target amount"
             />
           </label>
-
-          {error && <p className="modal-error-text">{error}</p>}
         </div>
+
+        {error && (
+          <p className="modal-error-text">
+            {error}
+          </p>
+        )}
 
         <div className="savings-modal-actions">
           <button
             type="button"
-            className="modal-cancel-btn"
+            className="modal-secondary-btn"
             onClick={handleResetRecommended}
           >
             Reset Recommended
           </button>
 
-          <button type="button" className="modal-cancel-btn" onClick={onClose}>
+          <button
+            type="button"
+            className="modal-cancel-btn"
+            onClick={onClose}
+          >
             Cancel
           </button>
 
-          <button type="button" className="modal-save-btn" onClick={handleSave}>
+          <button
+            type="button"
+            className="modal-save-btn"
+            onClick={handleSave}
+          >
             Save Goal
           </button>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default EditSavingsModal;

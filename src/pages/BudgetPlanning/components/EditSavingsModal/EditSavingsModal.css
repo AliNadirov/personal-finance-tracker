@@ -1,9 +1,9 @@
-.budget-modal-overlay {
+.savings-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.42);
-  backdrop-filter: blur(3px);
   z-index: 2000;
+  background: rgba(15, 23, 42, 0.42);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,27 +11,28 @@
   box-sizing: border-box;
 }
 
-.budget-modal {
+.savings-modal {
   width: 100%;
   max-width: 680px;
   background: #ffffff;
-  border-radius: 26px;
   border: 1px solid #e2e8f0;
+  border-radius: 24px;
   padding: 28px;
-  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.24);
   box-sizing: border-box;
-  overflow: visible;
-  max-height: unset;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.18);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
-.budget-modal-header {
+.savings-modal-header {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   gap: 16px;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
-.budget-modal-header p {
+.modal-label {
   margin: 0 0 6px;
   color: #2563eb;
   font-size: 0.78rem;
@@ -40,7 +41,7 @@
   text-transform: uppercase;
 }
 
-.budget-modal-header h3 {
+.savings-modal-header h3 {
   margin: 0;
   color: #0f172a;
   font-size: 1.45rem;
@@ -48,66 +49,90 @@
 }
 
 .modal-close-btn {
-  width: 36px;
-  min-width: 36px;
-  height: 36px;
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
   border: none;
   border-radius: 12px;
   background: #f8fafc;
   color: #334155;
   font-size: 24px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-.budget-modal-fields {
+.modal-close-btn:hover {
+  background: #eef2ff;
+}
+
+.savings-modal-fields {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  gap: 16px;
 }
 
-.budget-modal-fields label {
+.savings-modal-fields label {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.budget-modal-fields span {
+.savings-modal-fields span {
   color: #475569;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 800;
 }
 
-.budget-modal-fields input {
+.savings-modal-fields input {
   width: 100%;
-  height: 48px;
+  height: 50px;
   border: 1px solid #dbe3ee;
   border-radius: 14px;
   padding: 0 14px;
   font-size: 15px;
-  box-sizing: border-box;
+  color: #0f172a;
   outline: none;
+  box-sizing: border-box;
+  transition: 0.2s;
 }
 
-.budget-modal-fields input:focus {
+.savings-modal-fields input:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
-.budget-modal-actions {
+.modal-error-text {
+  margin-top: 14px;
+  margin-bottom: 0;
+  color: #dc2626;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.savings-modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 24px;
+  margin-top: 28px;
+  flex-wrap: wrap;
 }
 
+.modal-secondary-btn,
 .modal-cancel-btn,
 .modal-save-btn {
-  height: 44px;
-  border-radius: 13px;
+  height: 46px;
+  border-radius: 14px;
   padding: 0 18px;
   font-size: 14px;
-  font-weight: 900;
+  font-weight: 800;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+.modal-secondary-btn {
+  border: 1px solid #dbe3ee;
+  background: #f8fafc;
+  color: #334155;
 }
 
 .modal-cancel-btn {
@@ -126,49 +151,46 @@
   background: #1d4ed8;
 }
 
+@media (max-width: 768px) {
+  .savings-modal {
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .savings-modal-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .savings-modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .modal-secondary-btn,
+  .modal-cancel-btn,
+  .modal-save-btn {
+    width: 100%;
+  }
+}
+
 @media (max-width: 520px) {
-  .budget-modal-overlay {
-    align-items: flex-start;
+  .savings-modal-overlay {
+    align-items: center;
+    justify-content: center;
     padding: 12px;
     overflow-y: auto;
   }
 
-  .budget-modal {
-    max-height: calc(100dvh - 24px);
-    overflow-y: auto;
+  .savings-modal {
     padding: 18px;
-    border-radius: 20px;
+    max-height: calc(100dvh - 24px);
   }
 
-  .budget-modal-header {
-    gap: 12px;
-    margin-bottom: 18px;
+  .savings-modal-header h3 {
+    font-size: 1.2rem;
   }
 
-  .budget-modal-header h3 {
-    font-size: 1.25rem;
-  }
-
-  .budget-modal-fields {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .budget-modal-fields input {
-    height: 56px;
+  .savings-modal-fields input {
+    height: 54px;
     font-size: 16px;
-    border-radius: 16px;
-  }
-
-  .budget-modal-actions {
-    flex-direction: column-reverse;
-    gap: 10px;
-    margin-top: 24px;
-  }
-
-  .modal-cancel-btn,
-  .modal-save-btn {
-    width: 100%;
-    height: 48px;
   }
 }
