@@ -9,14 +9,14 @@ function CalendarSummary() {
   const [selectedDate, setSelectedDate] = useState(today);
   const [currentMonth, setCurrentMonth] = useState(today);
   const [allTransactions, setAllTransactions] = useState([]);
-  const [budget, setBudget] = useState(8000);
+  const [budget, setBudget] = useState(0);
 
   useEffect(() => {
     const stored = getTransactions();
     setAllTransactions([...mockTransactions, ...stored]);
 
     const user = getCurrentUser();
-    if (user?.budget) setBudget(Number(user.budget));
+    setBudget(Number(user?.monthlyBudget ?? 0));
   }, []);
 
   const year = currentMonth.getFullYear();
