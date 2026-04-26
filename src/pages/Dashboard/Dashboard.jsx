@@ -14,14 +14,14 @@ import "./Dashboard.css";
 
 function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [userBudget, setUserBudget] = useState(10000);
+  const [userBudget, setUserBudget] = useState(0);
   const [latestMonthExpenses, setLatestMonthExpenses] = useState(0);
 
   const loadUserBudget = () => {
     const currentUser = getCurrentUser();
-    if (currentUser && currentUser.budget) {
-      setUserBudget(Number(currentUser.budget));
-    }
+    const monthlyBudget = Number(currentUser?.monthlyBudget ?? 0);
+
+    setUserBudget(monthlyBudget);
   };
 
   const calculateLatestMonthExpenses = () => {

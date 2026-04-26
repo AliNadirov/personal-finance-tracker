@@ -1,4 +1,4 @@
-.savings-modal-overlay {
+.budget-modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(15, 23, 42, 0.42);
@@ -11,58 +11,73 @@
   box-sizing: border-box;
 }
 
-.savings-modal {
+.budget-modal {
   width: 100%;
-  max-width: 500px;
+  max-width: 680px;
   background: #ffffff;
   border-radius: 26px;
   border: 1px solid #e2e8f0;
-  padding: 24px;
+  padding: 28px;
   box-shadow: 0 24px 70px rgba(15, 23, 42, 0.24);
+  box-sizing: border-box;
+  overflow: visible;
+  max-height: unset;
 }
 
-.savings-modal-header {
+.budget-modal-header {
   display: flex;
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 22px;
 }
 
-.savings-modal-header p {
+.budget-modal-header p {
   margin: 0 0 6px;
-  color: #059669;
+  color: #2563eb;
   font-size: 0.78rem;
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.savings-modal-header h3 {
+.budget-modal-header h3 {
   margin: 0;
   color: #0f172a;
   font-size: 1.45rem;
   font-weight: 900;
 }
 
-.savings-modal-fields {
-  display: flex;
-  flex-direction: column;
+.modal-close-btn {
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.budget-modal-fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 14px;
 }
 
-.savings-modal-fields label {
+.budget-modal-fields label {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.savings-modal-fields span {
+.budget-modal-fields span {
   color: #475569;
   font-size: 0.82rem;
   font-weight: 800;
 }
 
-.savings-modal-fields input {
+.budget-modal-fields input {
   width: 100%;
   height: 48px;
   border: 1px solid #dbe3ee;
@@ -73,30 +88,87 @@
   outline: none;
 }
 
-.savings-modal-fields input:focus {
-  border-color: #059669;
-  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
+.budget-modal-fields input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
-.savings-modal-actions {
+.budget-modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
   margin-top: 24px;
 }
 
+.modal-cancel-btn,
+.modal-save-btn {
+  height: 44px;
+  border-radius: 13px;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.modal-cancel-btn {
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #334155;
+}
+
+.modal-save-btn {
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.modal-save-btn:hover {
+  background: #1d4ed8;
+}
+
 @media (max-width: 520px) {
-  .savings-modal {
-    padding: 20px;
-    border-radius: 22px;
+  .budget-modal-overlay {
+    align-items: flex-start;
+    padding: 12px;
+    overflow-y: auto;
   }
 
-  .savings-modal-actions {
-    flex-direction: column;
+  .budget-modal {
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .budget-modal-header {
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .budget-modal-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .budget-modal-fields {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .budget-modal-fields input {
+    height: 56px;
+    font-size: 16px;
+    border-radius: 16px;
+  }
+
+  .budget-modal-actions {
+    flex-direction: column-reverse;
+    gap: 10px;
+    margin-top: 24px;
   }
 
   .modal-cancel-btn,
   .modal-save-btn {
     width: 100%;
+    height: 48px;
   }
 }

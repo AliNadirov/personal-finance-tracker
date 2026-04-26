@@ -43,7 +43,7 @@ const createDefaultBudgetPlan = (monthlyBudget) => ({
 const BudgetPlanning = () => {
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
-  const monthlyBudget = Number(currentUser?.budget) || 8000;
+  const monthlyBudget = Number(currentUser?.monthlyBudget ?? 0);
 
   const recommendedSavingsGoal = createRecommendedSavingsGoal(monthlyBudget);
 

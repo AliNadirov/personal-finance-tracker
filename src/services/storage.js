@@ -21,11 +21,19 @@ export function saveUsers(users) {
 export async function addUser(newUser) {
   const users = await getUsers();
   const exists = users.find((user) => user.email === newUser.email);
+
   if (!exists) {
-    users.push(newUser);
+    const userWithDefaults = {
+      ...newUser,
+      monthlyBudget: Number(newUser.monthlyBudget ?? 10000),
+      currency: newUser.currency || "USD",
+    };
+
+    users.push(userWithDefaults);
     saveUsers(users);
-    return newUser;
+    return userWithDefaults;
   }
+
   return null;
 }
 
@@ -38,17 +46,26 @@ export function setCurrentUser(user) {
   const normalizedUser = {
     name: user.name || user.displayName || "",
     email: user.email || "",
+    monthlyBudget: Number(user.monthlyBudget ?? 10000),
+    currency: user.currency || "USD",
     ...user,
   };
+
   localStorage.setItem(currentUserKey, JSON.stringify(normalizedUser));
 }
 
 export function getCurrentUser() {
-  const user = localStorage.getItem(currentUserKey);
-  if (user) {
-    return JSON.parse(user);
+  const storedUser = localStorage.getItem(currentUserKey);
+
+  if (storedUser) {
+    return JSON.parse(storedUser);
   }
-  return null;
+
+  return {
+    ...mockUsers[0],
+    monthlyBudget: Number(mockUsers[0]?.monthlyBudget ?? 0),
+    currency: mockUsers[0]?.currency || "USD",
+  };
 }
 
 export function clearCurrentUser() {
