@@ -49,7 +49,7 @@ const EditBudgetModal = ({
             className="modal-close-btn"
             onClick={onClose}
           >
-            ×
+            x
           </button>
         </div>
 

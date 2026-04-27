@@ -107,6 +107,7 @@ export default function IconButtons({ className = "" }) {
           tabIndex={0}
           onKeyDown={(event) => {
             if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
               handleGoogleLogin();
             }
           }}

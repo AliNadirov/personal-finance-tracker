@@ -61,7 +61,7 @@ function EditSavingsModal({
             onClick={onClose}
             aria-label="Close modal"
           >
-            ×
+            x
           </button>
         </div>
 

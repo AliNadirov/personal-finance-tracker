@@ -100,12 +100,17 @@ export function saveUsers(users) {
 
 export async function addUser(newUser) {
   const users = await getUsers();
-  const exists = users.find((user) => user.email === newUser.email);
+  const normalizedEmail = String(newUser.email || "").trim().toLowerCase();
+
+  const exists = users.find(
+    (user) => String(user.email || "").trim().toLowerCase() === normalizedEmail
+  );
 
   if (!exists) {
     const userWithDefaults = normalizeUser({
       ...newUser,
       id: newUser.id || `user-${Date.now()}`,
+      email: normalizedEmail,
       currency: newUser.currency || "USD",
     });
 
@@ -119,7 +124,13 @@ export async function addUser(newUser) {
 
 export async function findUserByEmail(email) {
   const users = await getUsers();
-  return users.find((user) => user.email === email) || null;
+  const normalizedEmail = String(email || "").trim().toLowerCase();
+
+  return (
+    users.find(
+      (user) => String(user.email || "").trim().toLowerCase() === normalizedEmail
+    ) || null
+  );
 }
 
 export function setCurrentUser(user) {
