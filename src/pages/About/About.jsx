@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./About.css";
-import logo from "../../assets/images/main_logo.svg";
+import logo from "../../assets/images/main_logo.png";
 
 const aboutHighlights = [
   {

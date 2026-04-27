@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import Vector from "../../../assets/images/Vector.png";
-import stripes from "../../../assets/images/button-stripe.png";
+import { Menu, Settings } from "lucide-react";
 import SettingsMenu from "./SettingsMenu/SettingsMenu";
 import { getCurrentUser } from "../../../services/storage";
 import "./Header.css";
@@ -25,8 +24,8 @@ function Header({ onMenuClick }) {
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
         setMenuOpen(false);
       }
     };
@@ -47,12 +46,15 @@ function Header({ onMenuClick }) {
           onClick={onMenuClick}
           aria-label="Open sidebar"
         >
-          <img className="stripes" src={stripes} alt="" />
+          <Menu className="header-icon" strokeWidth={2.4} />
         </button>
       </div>
 
       <div className="header-center">
-        <h1 className="header-title">Welcome back, {userName}</h1>
+        <h1 className="header-title">
+          Welcome back, {userName}
+        </h1>
+
         <p className="header-subtitle">
           Track your budget and spending in one place
         </p>
@@ -66,10 +68,12 @@ function Header({ onMenuClick }) {
           aria-label="Open account menu"
           aria-expanded={menuOpen}
         >
-          <img src={Vector} alt="" className="settings-icon" />
+          <Settings className="header-icon" strokeWidth={2.2} />
         </button>
 
-        {menuOpen && <SettingsMenu onClose={() => setMenuOpen(false)} />}
+        {menuOpen && (
+          <SettingsMenu onClose={() => setMenuOpen(false)} />
+        )}
       </div>
     </header>
   );

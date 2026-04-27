@@ -1,9 +1,16 @@
 import { useState } from "react";
-import EyeOpen from "../../assets/icons/EyeOpen.jsx";
-import EyeClose from "../../assets/icons/EyeClose.jsx";
+import { Eye, EyeOff } from "lucide-react";
 import "./PasswordInput.css";
 
-export default function PasswordInput({ id, name, value, onChange, placeholder, autoComplete }) {
+export default function PasswordInput({
+  id,
+  name,
+  value,
+  onChange,
+  placeholder,
+  autoComplete,
+  required = false,
+}) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -17,13 +24,17 @@ export default function PasswordInput({ id, name, value, onChange, placeholder, 
         onChange={onChange}
         placeholder={placeholder}
         autoComplete={autoComplete}
+        required={required}
       />
+
       <button
         type="button"
         className="password-eye-button"
-        onClick={() => setShowPassword(!showPassword)}
+        onClick={() => setShowPassword((prev) => !prev)}
+        aria-label={showPassword ? "Hide password" : "Show password"}
+        aria-pressed={showPassword}
       >
-        {showPassword ? <EyeClose /> : <EyeOpen />}
+        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
       </button>
     </div>
   );

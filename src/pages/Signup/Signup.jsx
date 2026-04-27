@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import IconButtons from "../../components/Buttons/IconButtons/IconButtons.jsx";
+import IconButtons from "../../components/AuthButtons/AuthButtons.jsx";
 import PasswordInput from "../../components/PasswordInput/PasswordInput.jsx";
 import { getUsers, addUser, setCurrentUser, findUserByEmail } from "../../services/storage.js";
 import "./Signup.css";

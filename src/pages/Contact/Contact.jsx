@@ -89,7 +89,7 @@ const Contact = () => {
       ) : (
         <div className="contact-success">
           <h2>Message sent!</h2>
-          <p>Thanks for reaching out. We’ll get back to you as soon as possible.</p>
+          <p>Thanks for reaching out. We'll get back to you as soon as possible.</p>
           <button
             className="back-to-dashboard-btn success-version"
             onClick={handleBack}

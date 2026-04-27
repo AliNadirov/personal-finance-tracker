@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import IconButtons from "../../components/Buttons/IconButtons/IconButtons.jsx";
+import IconButtons from "../../components/AuthButtons/AuthButtons.jsx";
 import PasswordInput from "../../components/PasswordInput/PasswordInput.jsx";
 import { findUserByEmail, setCurrentUser } from "../../services/storage.js";
 import budgetBeeLogoMain from "../../assets/images/main_logo.png"

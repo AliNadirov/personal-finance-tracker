@@ -1,156 +1,267 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getCurrentUser, setCurrentUser, getUsers, saveUsers } from '../../../services/storage.js';
-import backIcon from '../../../assets/icons/baseline-arrow-back.png';
-import './profilesettings.css';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Trash2, X } from "lucide-react";
+import {
+  getCurrentUser,
+  setCurrentUser,
+  getUsers,
+  saveUsers,
+  clearCurrentUser,
+} from "../../../services/storage";
+import CurrencySelect from "./components/CurrencySelect";
+import "./ProfileSettings.css";
 
-const ProfileSettings = () => {
-    const navigate = useNavigate();
-    const [currentUser, setCurrentUserState] = useState({
-        name: '',
-        email: '',
-        currency: 'AZN',
-        workType: '',
-        budget: ''
-    });
-    const [showModal, setShowModal] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
+const currencies = [
+  { code: "USD", name: "US Dollar", flag: "us" },
+  { code: "EUR", name: "Euro", flag: "eu" },
+  { code: "GBP", name: "British Pound", flag: "gb" },
+  { code: "JPY", name: "Japanese Yen", flag: "jp" },
+  { code: "CNY", name: "Chinese Yuan", flag: "cn" },
+  { code: "KRW", name: "South Korean Won", flag: "kr" },
+  { code: "CAD", name: "Canadian Dollar", flag: "ca" },
+  { code: "AUD", name: "Australian Dollar", flag: "au" },
+  { code: "CHF", name: "Swiss Franc", flag: "ch" },
+  { code: "HKD", name: "Hong Kong Dollar", flag: "hk" },
+  { code: "SGD", name: "Singapore Dollar", flag: "sg" },
+  { code: "NZD", name: "New Zealand Dollar", flag: "nz" },
+  { code: "SEK", name: "Swedish Krona", flag: "se" },
+  { code: "NOK", name: "Norwegian Krone", flag: "no" },
+  { code: "DKK", name: "Danish Krone", flag: "dk" },
+  { code: "PLN", name: "Polish Zloty", flag: "pl" },
+  { code: "CZK", name: "Czech Koruna", flag: "cz" },
+  { code: "HUF", name: "Hungarian Forint", flag: "hu" },
+  { code: "RON", name: "Romanian Leu", flag: "ro" },
+  { code: "BGN", name: "Bulgarian Lev", flag: "bg" },
+  { code: "TRY", name: "Turkish Lira", flag: "tr" },
+  { code: "AZN", name: "Azerbaijani Manat", flag: "az" },
+  { code: "AED", name: "UAE Dirham", flag: "ae" },
+  { code: "SAR", name: "Saudi Riyal", flag: "sa" },
+  { code: "QAR", name: "Qatari Riyal", flag: "qa" },
+  { code: "KWD", name: "Kuwaiti Dinar", flag: "kw" },
+  { code: "ILS", name: "Israeli Shekel", flag: "il" },
+  { code: "INR", name: "Indian Rupee", flag: "in" },
+  { code: "PKR", name: "Pakistani Rupee", flag: "pk" },
+  { code: "BDT", name: "Bangladeshi Taka", flag: "bd" },
+  { code: "IDR", name: "Indonesian Rupiah", flag: "id" },
+  { code: "MYR", name: "Malaysian Ringgit", flag: "my" },
+  { code: "THB", name: "Thai Baht", flag: "th" },
+  { code: "PHP", name: "Philippine Peso", flag: "ph" },
+  { code: "VND", name: "Vietnamese Dong", flag: "vn" },
+  { code: "TWD", name: "Taiwan Dollar", flag: "tw" },
+  { code: "BRL", name: "Brazilian Real", flag: "br" },
+  { code: "MXN", name: "Mexican Peso", flag: "mx" },
+  { code: "ARS", name: "Argentine Peso", flag: "ar" },
+  { code: "CLP", name: "Chilean Peso", flag: "cl" },
+  { code: "COP", name: "Colombian Peso", flag: "co" },
+  { code: "PEN", name: "Peruvian Sol", flag: "pe" },
+  { code: "ZAR", name: "South African Rand", flag: "za" },
+  { code: "EGP", name: "Egyptian Pound", flag: "eg" },
+  { code: "NGN", name: "Nigerian Naira", flag: "ng" },
+  { code: "KES", name: "Kenyan Shilling", flag: "ke" },
+  { code: "MAD", name: "Moroccan Dirham", flag: "ma" },
+  { code: "UAH", name: "Ukrainian Hryvnia", flag: "ua" },
+  { code: "GEL", name: "Georgian Lari", flag: "ge" },
+  { code: "KZT", name: "Kazakhstani Tenge", flag: "kz" },
+];
 
-    useEffect(() => {
-        const storedUser = getCurrentUser();
-        if (storedUser) {
-            setCurrentUserState({
-                name: storedUser.name || '',
-                email: storedUser.email || '',
-                currency: storedUser.currency || 'AZN',
-                workType: storedUser.workType || '',
-                budget: storedUser.budget || ''
-            });
-        }
-    }, []);
+function ProfileSettings() {
+  const navigate = useNavigate();
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setCurrentUserState(prev => ({ ...prev, [name]: value }));
+  const [originalEmail, setOriginalEmail] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    currency: "USD",
+  });
+
+  useEffect(() => {
+    const user = getCurrentUser();
+
+    if (user) {
+      setOriginalEmail(user.email || "");
+      setFormData({
+        name: user.name || "",
+        email: user.email || "",
+        currency: user.currency || "USD",
+      });
+    }
+  }, []);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSave = async (event) => {
+    event.preventDefault();
+
+    const users = await getUsers();
+
+    const updatedUser = {
+      ...getCurrentUser(),
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      currency: formData.currency,
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const users = await getUsers();
-        const updatedUsers = users.map(storedUser =>
-            storedUser.email === currentUser.email
-                ? { ...storedUser, ...currentUser, budget: Number(currentUser.budget) } // <- convert budget to number
-                : storedUser
-        );
+    const updatedUsers = users.map((user) =>
+      user.email === originalEmail ? updatedUser : user
+    );
 
-        saveUsers(updatedUsers);
-        setCurrentUser({ ...currentUser, budget: Number(currentUser.budget) });
-        setShowModal(true);
-        setTimeout(() => setShowModal(false), 2000);
-    };
+    saveUsers(updatedUsers);
+    setCurrentUser(updatedUser);
+    setOriginalEmail(updatedUser.email);
+  };
 
-    const handleDeleteAccount = () => {
-        setShowDeleteModal(true);
-    };
+  const handleDelete = async () => {
+    const users = await getUsers();
 
-    const confirmDeleteAccount = async () => {
-        const users = await getUsers();
-        const updatedUsers = users.filter(storedUser => storedUser.email !== currentUser.email);
-        saveUsers(updatedUsers);
-        localStorage.removeItem('currentUser');
-        navigate('/login');
-    };
+    const updatedUsers = users.filter(
+      (user) => user.email !== originalEmail
+    );
 
-    const handleBack = () => {
-        navigate("/dashboard");
-    };
+    saveUsers(updatedUsers);
+    clearCurrentUser();
+    navigate("/login");
+  };
 
-    return (
-        <div className="settings-page-wrapper">
-            <button className="back-button" onClick={handleBack}>
-                <img src={backIcon} alt="Back" />
+  return (
+    <main className="profile-page">
+      <section className="profile-shell">
+        <button
+          type="button"
+          className="profile-back-btn"
+          onClick={() => navigate("/dashboard")}
+        >
+          <ArrowLeft size={18} />
+          <span>Back to Dashboard</span>
+        </button>
+
+        <div className="profile-card">
+          <header className="profile-header">
+            <p>BudgetBee Account</p>
+            <h1>Your Profile</h1>
+            <span>
+              Manage your identity and preferred currency for cleaner financial
+              tracking.
+            </span>
+          </header>
+
+          <form className="profile-form" onSubmit={handleSave}>
+            <label className="profile-field">
+              <span>Full Name</span>
+              <input
+                className="profile-input"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            <label className="profile-field">
+              <span>Email Address</span>
+              <input
+                className="profile-input"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            <CurrencySelect
+              label="Currency"
+              value={formData.currency}
+              options={currencies}
+              onChange={(currency) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  currency,
+                }))
+              }
+            />
+
+            <button type="submit" className="profile-save-btn">
+              Save Changes
             </button>
-            <div className="settings-container">
-                <h2 className="settings-title">Settings</h2>
+          </form>
 
-                <form className="settings-form" onSubmit={handleSubmit}>
-                    <label>Name</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={currentUser.name}
-                        onChange={handleChange}
-                        placeholder="Enter your name"
-                    />
-
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={currentUser.email}
-                        onChange={handleChange}
-                        placeholder="Enter your email"
-                    />
-
-                    <label>Currency</label>
-                    <select name="currency" value={currentUser.currency} onChange={handleChange}>
-                        <option value="AZN">AZN</option>
-                        <option value="USD">USD</option>
-                    </select>
-
-                    <label>Work Type</label>
-                    <input
-                        type="text"
-                        name="workType"
-                        value={currentUser.workType}
-                        onChange={handleChange}
-                        placeholder="Enter work type"
-                    />
-
-
-                    <label>Add budget limit</label>
-                    <input
-                        type="number"
-                        name="budget"
-                        value={currentUser.budget}
-                        onChange={handleChange}
-                        placeholder="Enter budget limit"
-                    />
-
-                    <button type="submit" className="continue-button">Continue</button>
-                </form>
-
-                <button className="delete-button" onClick={handleDeleteAccount}>
-                    Delete Account
-                </button>
+          <div className="danger-zone">
+            <div className="danger-icon">
+              <Trash2 size={18} />
             </div>
 
-            {showModal && (
-                <div className="modal-overlay" onClick={() => setShowModal(false)}>
-                    <div className="modal-toast" onClick={(event) => event.stopPropagation()}>
-                        Profile updated successfully!
-                    </div>
-                </div>
-            )}
+            <div className="danger-content">
+              <h2>Delete BudgetBee Profile</h2>
+              <p>
+                Delete this profile permanently and clear its saved workspace
+                data.
+              </p>
+            </div>
 
-            {showDeleteModal && (
-                <div className="modal-overlay" onClick={() => setShowDeleteModal(false)}>
-                    <div className="modal-confirm" onClick={(event) => event.stopPropagation()}>
-                        <h3>Delete Account</h3>
-                        <p>Are you sure you want to delete your account ? This action cannot be undone.</p>
-                        <div className="modal-actions">
-                            <button className="confirm-btn" onClick={confirmDeleteAccount}>
-                                Yes, Delete
-                            </button>
-                            <button className="cancel-btn" onClick={() => setShowDeleteModal(false)}>
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <button
+              type="button"
+              className="delete-btn"
+              onClick={() => setShowDeleteModal(true)}
+            >
+              <Trash2 size={16} />
+              Delete Profile
+            </button>
+          </div>
         </div>
-    );
-};
+      </section>
+
+      {showDeleteModal && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowDeleteModal(false)}
+        >
+          <div className="modal-box" onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              className="modal-close"
+              onClick={() => setShowDeleteModal(false)}
+            >
+              <X size={18} />
+            </button>
+
+            <h3>Delete this profile?</h3>
+            <p>
+              This will permanently remove your BudgetBee profile from this
+              browser. This action cannot be undone.
+            </p>
+
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="confirm-delete"
+                onClick={handleDelete}
+              >
+                Yes, Delete
+              </button>
+
+              <button
+                type="button"
+                className="cancel-delete"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </main>
+  );
+}
 
 export default ProfileSettings;

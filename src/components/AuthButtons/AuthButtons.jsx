@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
-import GoogleIcon from "../../../assets/icons/GoogleIcon";
-import FacebookIcon from "../../../assets/icons/FacebookIcon";
-import { addUser, setCurrentUser, findUserByEmail, getUsers } from "../../../services/storage.js";
-import { loadFacebookSdk, facebookLogin } from "../../../services/facebookSdk.js";
-import "./IconButtons.css";
+import GoogleIcon from "../../assets/icons/GoogleIcon.jsx";
+import FacebookIcon from "../../assets/icons/FacebookIcon.jsx";
+import { addUser, setCurrentUser, findUserByEmail, getUsers } from "../../services/storage.js";
+import { loadFacebookSdk, facebookLogin } from "../../services/facebookSdk.js";
+import "./AuthButtons.css";
 
 export default function IconButtons({ className = "" }) {
   const navigate = useNavigate();
@@ -112,7 +112,7 @@ export default function IconButtons({ className = "" }) {
             }
           }}
         >
-          <GoogleIcon />
+          <GoogleIcon size={30} />
         </div>
 
         <div
@@ -126,7 +126,7 @@ export default function IconButtons({ className = "" }) {
             }
           }}
         >
-          <FacebookIcon />
+          <FacebookIcon size={30} />
         </div>
       </div>
 
