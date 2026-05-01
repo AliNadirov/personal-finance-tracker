@@ -10,10 +10,19 @@ import {
 } from "recharts";
 import { useEffect, useState } from "react";
 import { getAllTransactions } from "../../../services/storage";
+import { useCurrentUser } from "../../../hooks/useCurrentUser";
+import { formatCurrency } from "../../../utils/currency";
+import { isPastOrToday } from "../../../utils/dateFilters";
 import "./IncomeExpensesChart.css";
 
 function IncomeExpensesChart() {
-  const allTransactions = getAllTransactions();
+  const currentUser = useCurrentUser();
+  const currency = currentUser?.currency || "USD";
+
+  const allTransactions = getAllTransactions().filter((transaction) =>
+    isPastOrToday(transaction.date)
+  );
+
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
@@ -27,8 +36,17 @@ function IncomeExpensesChart() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const formatCompactCurrency = (value) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+      notation: "compact",
+      maximumFractionDigits: 1,
+    }).format(Number(value) || 0);
+  };
+
   const monthlyMap = allTransactions.reduce((acc, transaction) => {
-    const date = new Date(transaction.date);
+    const date = new Date(`${transaction.date}T00:00:00`);
     if (Number.isNaN(date.getTime())) return acc;
 
     const year = date.getFullYear();
@@ -70,27 +88,9 @@ function IncomeExpensesChart() {
     maxExpenses > 0 ? Math.ceil(maxExpenses / 1000) * 1000 : 1000;
 
   const tickStep =
-    roundedMax <= 4000
-      ? 1000
-      : Math.ceil(roundedMax / 4 / 1000) * 1000;
+    roundedMax <= 4000 ? 1000 : Math.ceil(roundedMax / 4 / 1000) * 1000;
 
   const yAxisTicks = [0, tickStep, tickStep * 2, tickStep * 3, tickStep * 4];
-
-  const formatYAxisTick = (value) => {
-    if (value >= 1000) {
-      const shortValue = value / 1000;
-      return `$${Number.isInteger(shortValue) ? shortValue : shortValue.toFixed(1)}K`;
-    }
-    return `$${value}`;
-  };
-
-  const formatPointLabel = (value) => {
-    if (value >= 1000) {
-      const shortValue = value / 1000;
-      return `$${Number.isInteger(shortValue) ? shortValue : shortValue.toFixed(1)}K`;
-    }
-    return `$${value.toFixed(0)}`;
-  };
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (!active || !payload || !payload.length) return null;
@@ -98,7 +98,7 @@ function IncomeExpensesChart() {
     return (
       <div className="income-expenses-tooltip">
         <p className="tooltip-month">{label}</p>
-        <p>Expenses: ${payload[0].value.toFixed(2)}</p>
+        <p>Expenses: {formatCurrency(payload[0].value, currency)}</p>
       </div>
     );
   };
@@ -130,11 +130,7 @@ function IncomeExpensesChart() {
                 </linearGradient>
               </defs>
 
-              <CartesianGrid
-                stroke="#e8edf3"
-                strokeDasharray="3 3"
-                vertical={true}
-              />
+              <CartesianGrid stroke="#e8edf3" strokeDasharray="3 3" vertical />
 
               <XAxis
                 dataKey="month"
@@ -158,7 +154,7 @@ function IncomeExpensesChart() {
                   fontSize: isMobile ? 11 : 14,
                   fontWeight: 500,
                 }}
-                tickFormatter={formatYAxisTick}
+                tickFormatter={formatCompactCurrency}
                 width={isMobile ? 46 : 64}
               />
 
@@ -199,7 +195,7 @@ function IncomeExpensesChart() {
                         fontSize={isMobile ? 11 : 13}
                         fontWeight={600}
                       >
-                        {formatPointLabel(value)}
+                        {formatCompactCurrency(value)}
                       </text>
                     );
                   }}

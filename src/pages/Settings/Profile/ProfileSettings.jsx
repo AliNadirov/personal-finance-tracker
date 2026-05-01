@@ -117,6 +117,7 @@ function ProfileSettings() {
     saveUsers(updatedUsers);
     setCurrentUser(updatedUser);
     setOriginalEmail(updatedUser.email);
+    window.dispatchEvent(new Event("budgetbee:user-updated"));
   };
 
   const handleDelete = async () => {

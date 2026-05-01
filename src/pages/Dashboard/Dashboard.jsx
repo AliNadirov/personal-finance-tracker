@@ -8,78 +8,95 @@ import CalendarSummary from "./CalendarSummary/CalendarSummary";
 import IncomeExpensesChart from "./IncomeExpensesChart/IncomeExpensesChart";
 import PieChartBox from "./PieChartBox/PieChartBox";
 import Sidebar from "./Sidebar/Sidebar";
+
 import { getCurrentUser, getTransactions } from "../../services/storage";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
+import { formatCurrency } from "../../utils/currency";
+
 import mockTransactions from "../../data/mock_transactions.json";
 import "./Dashboard.css";
 
 function Dashboard() {
+  const currentUser = useCurrentUser();
+  const currency = currentUser?.currency || "USD";
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [userBudget, setUserBudget] = useState(0);
   const [totalMonthlyIncome, setTotalMonthlyIncome] = useState(0);
-  const [latestMonthExpenses, setLatestMonthExpenses] = useState(0);
-
-  const loadUserFinancials = () => {
-    const currentUser = getCurrentUser();
-
-    const monthlyBudget = Number(currentUser?.monthlyBudget ?? 0);
-
-    const mainIncomeTotal = (currentUser?.mainIncomeSources || []).reduce(
-      (total, income) => total + Number(income.monthlyIncome || 0),
-      0
-    );
-
-    const additionalIncomeTotal = (currentUser?.additionalIncome || []).reduce(
-      (total, income) => total + Number(income.monthlyIncome || 0),
-      0
-    );
-
-    setUserBudget(monthlyBudget);
-    setTotalMonthlyIncome(mainIncomeTotal + additionalIncomeTotal);
-  };
-
-  const calculateLatestMonthExpenses = () => {
-    const storedTransactions = getTransactions();
-    const allTransactions = [...mockTransactions, ...storedTransactions];
-
-    if (allTransactions.length === 0) {
-      setLatestMonthExpenses(0);
-      return;
-    }
-
-    const latestTimestamp = Math.max(
-      ...allTransactions.map((t) => new Date(t.date).getTime())
-    );
-
-    const latestDate = new Date(latestTimestamp);
-    const latestMonth = latestDate.getMonth();
-    const latestYear = latestDate.getFullYear();
-
-    const latestMonthTransactions = allTransactions.filter((t) => {
-      const d = new Date(t.date);
-      return d.getMonth() === latestMonth && d.getFullYear() === latestYear;
-    });
-
-    const total = latestMonthTransactions.reduce(
-      (sum, t) => sum + Number(t.amount),
-      0
-    );
-
-    setLatestMonthExpenses(total);
-  };
+  const [currentMonthExpenses, setCurrentMonthExpenses] = useState(0);
 
   useEffect(() => {
-    loadUserFinancials();
-    calculateLatestMonthExpenses();
+    const getFilteredTransactions = () => {
+      const storedTransactions = getTransactions();
+      const allTransactions = [...mockTransactions, ...storedTransactions];
 
-    const handleStorageChange = (e) => {
-      if (e.key === "currentUser" || e.key === "transactions") {
-        loadUserFinancials();
-        calculateLatestMonthExpenses();
+      const today = new Date();
+      today.setHours(23, 59, 59, 999);
+
+      const currentMonth = today.getMonth();
+      const currentYear = today.getFullYear();
+
+      return allTransactions.filter((t) => {
+        const date = new Date(`${t.date}T00:00:00`);
+
+        return (
+          date.getFullYear() === currentYear &&
+          date.getMonth() === currentMonth &&
+          date <= today
+        );
+      });
+    };
+
+    const loadUserFinancials = () => {
+      const user = getCurrentUser();
+
+      const monthlyBudget = Number(user?.monthlyBudget ?? 0);
+
+      const mainIncomeTotal = (user?.mainIncomeSources || []).reduce(
+        (total, income) => total + Number(income.monthlyIncome || 0),
+        0
+      );
+
+      const additionalIncomeTotal = (user?.additionalIncome || []).reduce(
+        (total, income) => total + Number(income.monthlyIncome || 0),
+        0
+      );
+
+      setUserBudget(monthlyBudget);
+      setTotalMonthlyIncome(mainIncomeTotal + additionalIncomeTotal);
+    };
+
+    const calculateCurrentMonthExpenses = () => {
+      const transactions = getFilteredTransactions();
+
+      const total = transactions.reduce(
+        (sum, transaction) => sum + Number(transaction.amount),
+        0
+      );
+
+      setCurrentMonthExpenses(total);
+    };
+
+    const handleUpdate = () => {
+      loadUserFinancials();
+      calculateCurrentMonthExpenses();
+    };
+
+    const handleStorageChange = (event) => {
+      if (event.key === "currentUser" || event.key === "transactions") {
+        handleUpdate();
       }
     };
 
+    handleUpdate();
+
+    window.addEventListener("budgetbee:user-updated", handleUpdate);
     window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("budgetbee:user-updated", handleUpdate);
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   const openSidebar = () => setIsSidebarOpen(true);
@@ -98,7 +115,6 @@ function Dashboard() {
 
           <div className="pie-section">
             <PieChartBox />
-
             <div className="pie-bottom">
               <CalendarSummary />
             </div>
@@ -110,13 +126,12 @@ function Dashboard() {
             <div className="summary-boxes">
               <Summary
                 title="Total Income"
-                value={`$${totalMonthlyIncome.toFixed(2)}`}
+                value={formatCurrency(totalMonthlyIncome, currency)}
                 type="income"
               />
-
               <Summary
                 title="Total Expenses"
-                value={`$${latestMonthExpenses.toFixed(2)}`}
+                value={formatCurrency(currentMonthExpenses, currency)}
                 type="expenses"
               />
             </div>

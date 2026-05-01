@@ -1,6 +1,11 @@
 import "./BudgetProgress.css";
+import { useCurrentUser } from "../../../../hooks/useCurrentUser";
+import { formatCurrency } from "../../../../utils/currency";
 
 const BudgetProgress = ({ categories, onEditLimits }) => {
+  const currentUser = useCurrentUser();
+  const currency = currentUser?.currency || "USD";
+
   const totalLimit = categories.reduce((sum, item) => sum + item.limit, 0);
   const totalSpent = categories.reduce((sum, item) => sum + item.spent, 0);
   const remainingLimit = totalLimit - totalSpent;
@@ -30,7 +35,8 @@ const BudgetProgress = ({ categories, onEditLimits }) => {
               <div>
                 <h4>{item.category}</h4>
                 <p>
-                  ${item.spent.toFixed(2)} / ${item.limit.toFixed(2)}
+                  {formatCurrency(item.spent, currency)} /{" "}
+                  {formatCurrency(item.limit, currency)}
                 </p>
               </div>
 
@@ -54,12 +60,12 @@ const BudgetProgress = ({ categories, onEditLimits }) => {
       <div className="budget-progress-footer">
         <div>
           <span>Total planned</span>
-          <strong>${totalLimit.toFixed(2)}</strong>
+          <strong>{formatCurrency(totalLimit, currency)}</strong>
         </div>
 
         <div>
           <span>Remaining limit</span>
-          <strong>${remainingLimit.toFixed(2)}</strong>
+          <strong>{formatCurrency(remainingLimit, currency)}</strong>
         </div>
       </div>
     </div>

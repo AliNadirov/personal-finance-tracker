@@ -30,7 +30,7 @@
 
 .calendar-header h3 {
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 700;
   color: #0f172a;
   letter-spacing: -0.2px;
 }
@@ -57,7 +57,7 @@
 .calendar-day {
   height: 72px;
   border-radius: 16px;
-  background: rgba(241, 245, 249, 0.7);
+  background: rgba(241, 245, 249, 0.72);
   border: 1px solid transparent;
   display: flex;
   flex-direction: column;
@@ -76,45 +76,41 @@
   transform: scale(0.97);
 }
 
-.calendar-day.active {
-  background: linear-gradient(135deg, #2563eb, #1e40af);
-  color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);
+.calendar-day.today {
+  border: 1px solid rgba(37, 99, 235, 0.45);
+  background: rgba(239, 246, 255, 0.85);
 }
 
-.calendar-day.today {
-  border: 1px solid rgba(37, 99, 235, 0.5);
-  background: rgba(239, 246, 255, 0.8);
+.calendar-day.active {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.26);
 }
 
 .calendar-day.active.today {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.22);
+  background: linear-gradient(135deg, #2563eb, #1e40af);
 }
 
 .day-number {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .day-amount {
-  font-size: 11px;
+  font-size: 0.7rem;
+  line-height: 1;
+  margin-top: 2px;
   color: #475569;
   text-align: right;
-  font-weight: 500;
+  font-weight: 600;
+  opacity: 0.86;
 }
 
-.calendar-day.active .day-amount {
-  color: rgba(255, 255, 255, 0.82);
-}
-
-.calendar-day.active.today .day-number {
-  color: rgba(255, 255, 255, 0.95);
-}
-
-.calendar-day.active.today .day-amount {
-  color: rgba(255, 255, 255, 0.82);
+.calendar-day.active .day-amount,
+.calendar-day.active .day-number {
+  color: rgba(255, 255, 255, 0.94);
 }
 
 .summary-box {
@@ -132,8 +128,9 @@
 
 .summary-box h4 {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   color: #0f172a;
+  margin-bottom: 4px;
 }
 
 .summary-row {
@@ -144,7 +141,8 @@
 }
 
 .summary-row strong {
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .summary-row.income {
@@ -179,17 +177,34 @@
 
 .day-transactions h5 {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 8px;
   color: #334155;
+}
+
+.day-transactions p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9rem;
 }
 
 .day-item {
   display: flex;
   justify-content: space-between;
+  gap: 12px;
   font-size: 12px;
   padding: 6px 0;
   border-bottom: 1px solid #f1f5f9;
+}
+
+.day-item span {
+  color: #334155;
+}
+
+.day-item strong {
+  color: #0f172a;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .day-item:last-child {

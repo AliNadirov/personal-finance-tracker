@@ -4,6 +4,9 @@ import {
   getBudgetPlan,
   saveBudgetPlan,
 } from "../../../services/storage";
+import { useCurrentUser } from "../../../hooks/useCurrentUser";
+import { formatCurrency } from "../../../utils/currency";
+import { isCurrentMonthToDate } from "../../../utils/dateFilters";
 import "./Budget.css";
 
 const categoryWeights = {
@@ -27,7 +30,10 @@ const createDefaultBudgetPlan = (monthlyBudget) => ({
 });
 
 function Budget({ budget = 0 }) {
-  const [latestMonthTransactions, setLatestMonthTransactions] = useState([]);
+  const currentUser = useCurrentUser();
+  const currency = currentUser?.currency || "USD";
+
+  const [currentMonthTransactions, setCurrentMonthTransactions] = useState([]);
   const [categoryLimits, setCategoryLimits] = useState({});
 
   useEffect(() => {
@@ -43,32 +49,14 @@ function Budget({ budget = 0 }) {
 
     const allTransactions = getAllTransactions();
 
-    if (allTransactions.length === 0) {
-      setLatestMonthTransactions([]);
-      return;
-    }
-
-    const latestTimestamp = Math.max(
-      ...allTransactions.map((transaction) => new Date(transaction.date).getTime())
+    const filteredTransactions = allTransactions.filter((transaction) =>
+      isCurrentMonthToDate(transaction.date)
     );
 
-    const latestDate = new Date(latestTimestamp);
-    const latestMonth = latestDate.getMonth();
-    const latestYear = latestDate.getFullYear();
-
-    const filteredTransactions = allTransactions.filter((transaction) => {
-      const transactionDate = new Date(transaction.date);
-
-      return (
-        transactionDate.getMonth() === latestMonth &&
-        transactionDate.getFullYear() === latestYear
-      );
-    });
-
-    setLatestMonthTransactions(filteredTransactions);
+    setCurrentMonthTransactions(filteredTransactions);
   }, [budget]);
 
-  const totalSpent = latestMonthTransactions.reduce(
+  const totalSpent = currentMonthTransactions.reduce(
     (sum, transaction) => sum + Number(transaction.amount),
     0
   );
@@ -76,7 +64,7 @@ function Budget({ budget = 0 }) {
   const remainingBudget = Math.max(budget - totalSpent, 0);
 
   const categoriesOverview = Object.keys(categoryLimits).map((categoryName) => {
-    const categorySpent = latestMonthTransactions
+    const categorySpent = currentMonthTransactions
       .filter((transaction) => transaction.category === categoryName)
       .reduce((sum, transaction) => sum + Number(transaction.amount), 0);
 
@@ -110,17 +98,17 @@ function Budget({ budget = 0 }) {
       <div className="budget-summary">
         <div className="budget-summary-item">
           <span className="budget-summary-label">Budget</span>
-          <strong>${budget.toFixed(2)}</strong>
+          <strong>{formatCurrency(budget, currency)}</strong>
         </div>
 
         <div className="budget-summary-item">
           <span className="budget-summary-label">Spent</span>
-          <strong>${totalSpent.toFixed(2)}</strong>
+          <strong>{formatCurrency(totalSpent, currency)}</strong>
         </div>
 
         <div className="budget-summary-item">
           <span className="budget-summary-label">Remaining</span>
-          <strong>${remainingBudget.toFixed(2)}</strong>
+          <strong>{formatCurrency(remainingBudget, currency)}</strong>
         </div>
       </div>
 
@@ -130,7 +118,7 @@ function Budget({ budget = 0 }) {
             <div className="budget-item-top">
               <span className="budget-category">{categoryData.categoryName}</span>
               <span className="budget-spent">
-                ${categoryData.categorySpent.toFixed(2)}
+                {formatCurrency(categoryData.categorySpent, currency)}
               </span>
             </div>
 

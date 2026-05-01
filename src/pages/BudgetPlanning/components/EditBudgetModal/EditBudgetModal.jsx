@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useCurrentUser } from "../../../../hooks/useCurrentUser";
+import { formatCurrency } from "../../../../utils/currency";
 import "./EditBudgetModal.css";
 
 const EditBudgetModal = ({
@@ -7,6 +9,9 @@ const EditBudgetModal = ({
   onClose,
   onSave,
 }) => {
+  const currentUser = useCurrentUser();
+  const currency = currentUser?.currency || "USD";
+
   const [formLimits, setFormLimits] = useState(limits);
 
   const handleChange = (category, value) => {
@@ -20,7 +25,6 @@ const EditBudgetModal = ({
 
   const handleResetRecommended = () => {
     if (!recommendedLimits) return;
-
     setFormLimits(recommendedLimits);
   };
 
@@ -64,6 +68,10 @@ const EditBudgetModal = ({
                 onChange={(event) =>
                   handleChange(category, event.target.value)
                 }
+                placeholder={formatCurrency(
+                  recommendedLimits?.[category] || 0,
+                  currency
+                )}
               />
             </label>
           ))}

@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, BriefcaseBusiness, Plus, Trash2, Wallet } from "lucide-react";
 import { getCurrentUser, setCurrentUser } from "../../../services/storage.js";
+import { useCurrentUser } from "../../../hooks/useCurrentUser.js";
+import { formatCurrency } from "../../../utils/currency.js";
 import mockMainIncomeSources from "../../../data/mockMainIncomeSources.json";
 import mockAdditionalIncome from "../../../data/mockAdditionalIncome.json";
 import "./IncomeSources.css";
@@ -30,6 +32,8 @@ const initialFormData = {
 
 function IncomeSources() {
   const navigate = useNavigate();
+  const currentUser = useCurrentUser();
+  const currency = currentUser?.currency || "USD";
 
   const [formData, setFormData] = useState(initialFormData);
   const [mainIncomeSources, setMainIncomeSources] = useState([]);
@@ -78,6 +82,8 @@ function IncomeSources() {
         mainIncomeSources: selectedMainIncome,
         additionalIncome: selectedAdditionalIncome,
       });
+
+      window.dispatchEvent(new Event("budgetbee:user-updated"));
     }
   }, []);
 
@@ -136,11 +142,14 @@ function IncomeSources() {
     setAdditionalIncomeSources(updatedAdditionalIncome);
 
     const user = getCurrentUser() || {};
+
     setCurrentUser({
       ...user,
       mainIncomeSources,
       additionalIncome: updatedAdditionalIncome,
     });
+
+    window.dispatchEvent(new Event("budgetbee:user-updated"));
   }
 
   function handleSubmit(event) {
@@ -189,17 +198,17 @@ function IncomeSources() {
         <section className="income-stats">
           <article className="income-stat-card">
             <span>Total Monthly Income</span>
-            <strong>${totalMonthlyIncome.toLocaleString()}</strong>
+            <strong>{formatCurrency(totalMonthlyIncome, currency)}</strong>
           </article>
 
           <article className="income-stat-card">
             <span>Main Income</span>
-            <strong>${mainMonthlyIncome.toLocaleString()}</strong>
+            <strong>{formatCurrency(mainMonthlyIncome, currency)}</strong>
           </article>
 
           <article className="income-stat-card">
             <span>Additional Income</span>
-            <strong>${additionalMonthlyIncome.toLocaleString()}</strong>
+            <strong>{formatCurrency(additionalMonthlyIncome, currency)}</strong>
           </article>
         </section>
 
@@ -227,20 +236,34 @@ function IncomeSources() {
 
             <label>
               Income Type
-              <select name="workType" value={formData.workType} onChange={handleChange} required>
+              <select
+                name="workType"
+                value={formData.workType}
+                onChange={handleChange}
+                required
+              >
                 <option value="">Select income type</option>
                 {workTypes.map((type) => (
-                  <option key={type} value={type}>{type}</option>
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
                 ))}
               </select>
             </label>
 
             <label>
               Work Mode
-              <select name="workMode" value={formData.workMode} onChange={handleChange} required>
+              <select
+                name="workMode"
+                value={formData.workMode}
+                onChange={handleChange}
+                required
+              >
                 <option value="">Select work mode</option>
                 {workModes.map((mode) => (
-                  <option key={mode} value={mode}>{mode}</option>
+                  <option key={mode} value={mode}>
+                    {mode}
+                  </option>
                 ))}
               </select>
             </label>
@@ -268,7 +291,9 @@ function IncomeSources() {
               >
                 <option value="">Select payment schedule</option>
                 {paymentFrequencies.map((frequency) => (
-                  <option key={frequency} value={frequency}>{frequency}</option>
+                  <option key={frequency} value={frequency}>
+                    {frequency}
+                  </option>
                 ))}
               </select>
             </label>
@@ -323,7 +348,10 @@ function IncomeSources() {
 
           <div className="income-cards-grid">
             {allIncomeSources.map((income) => (
-              <article className="income-source-card" key={`${income.category}-${income.id}`}>
+              <article
+                className="income-source-card"
+                key={`${income.category}-${income.id}`}
+              >
                 <div className="income-source-top">
                   <div className="income-source-icon">
                     {income.category === "Main Income" ? (
@@ -354,7 +382,7 @@ function IncomeSources() {
                 </div>
 
                 <div className="income-card-footer">
-                  <strong>${Number(income.monthlyIncome || 0).toLocaleString()}</strong>
+                  <strong>{formatCurrency(income.monthlyIncome, currency)}</strong>
 
                   {income.category === "Additional Income" ? (
                     <button

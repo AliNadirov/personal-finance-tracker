@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useCurrentUser } from "../../../../hooks/useCurrentUser";
+import { formatCurrency } from "../../../../utils/currency";
 import "./EditSavingsModal.css";
 
 function EditSavingsModal({
@@ -7,6 +9,9 @@ function EditSavingsModal({
   onClose,
   onSave,
 }) {
+  const currentUser = useCurrentUser();
+  const currency = currentUser?.currency || "USD";
+
   const [title, setTitle] = useState(goal?.title || "Monthly Savings");
   const [target, setTarget] = useState(
     String(goal?.target || recommendedGoal?.target || "")
@@ -86,7 +91,7 @@ function EditSavingsModal({
               inputMode="decimal"
               value={target}
               onChange={(e) => handleMoneyChange(e.target.value)}
-              placeholder="Enter target amount"
+              placeholder={formatCurrency(recommendedGoal?.target || 0, currency)}
             />
           </label>
         </div>

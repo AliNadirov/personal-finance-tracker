@@ -1,7 +1,15 @@
+import { useCurrentUser } from "../../../../hooks/useCurrentUser";
+import { formatCurrency } from "../../../../utils/currency";
 import "./BudgetInsights.css";
 
 const BudgetInsights = ({ totalSpent, monthlyBudget, categories }) => {
-  const spentPercentage = Math.min((totalSpent / monthlyBudget) * 100, 100);
+  const currentUser = useCurrentUser();
+  const currency = currentUser?.currency || "USD";
+
+  const safeBudget = Number(monthlyBudget) || 0;
+  const spentPercentage =
+    safeBudget > 0 ? Math.min((totalSpent / safeBudget) * 100, 100) : 0;
+
   const highestCategory = [...categories].sort((a, b) => b.spent - a.spent)[0];
   const warningCategory = categories.find((item) => item.percentage >= 90);
 
@@ -22,7 +30,10 @@ const BudgetInsights = ({ totalSpent, monthlyBudget, categories }) => {
         {highestCategory && (
           <div className="insight-item">
             <strong>{highestCategory.category}</strong>
-            <p>is currently your highest spending category.</p>
+            <p>
+              is your highest spending category (
+              {formatCurrency(highestCategory.spent, currency)}).
+            </p>
           </div>
         )}
 
@@ -34,7 +45,7 @@ const BudgetInsights = ({ totalSpent, monthlyBudget, categories }) => {
         ) : (
           <div className="insight-item success">
             <strong>Stable</strong>
-            <p>Your category budgets are currently under control.</p>
+            <p>Your category budgets are under control.</p>
           </div>
         )}
       </div>

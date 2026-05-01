@@ -2,11 +2,13 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import {
-  getCurrentUser,
   getAllTransactions,
   getBudgetPlan,
   saveBudgetPlan,
 } from "../../services/storage";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
+import { formatCurrency } from "../../utils/currency";
+import { isCurrentMonthToDate } from "../../utils/dateFilters";
 import BudgetCard from "./components/BudgetCard/BudgetCard";
 import BudgetProgress from "./components/BudgetProgress/BudgetProgress";
 import SavingsGoal from "./components/SavingsGoal/SavingsGoal";
@@ -43,7 +45,8 @@ const createDefaultBudgetPlan = (monthlyBudget) => ({
 
 const BudgetPlanning = () => {
   const navigate = useNavigate();
-  const currentUser = getCurrentUser();
+  const currentUser = useCurrentUser();
+  const currency = currentUser?.currency || "USD";
   const monthlyBudget = Number(currentUser?.monthlyBudget ?? 0);
 
   const recommendedSavingsGoal = createRecommendedSavingsGoal(monthlyBudget);
@@ -82,18 +85,9 @@ const BudgetPlanning = () => {
   const transactions = getAllTransactions();
 
   const currentMonthTransactions = useMemo(() => {
-    const today = new Date();
-    const currentMonth = today.getMonth();
-    const currentYear = today.getFullYear();
-
-    return transactions.filter((transaction) => {
-      const transactionDate = new Date(transaction.date);
-
-      return (
-        transactionDate.getMonth() === currentMonth &&
-        transactionDate.getFullYear() === currentYear
-      );
-    });
+    return transactions.filter((transaction) =>
+      isCurrentMonthToDate(transaction.date)
+    );
   }, [transactions]);
 
   const totalSpent = currentMonthTransactions.reduce(
@@ -175,19 +169,19 @@ const BudgetPlanning = () => {
         <section className="budget-cards-grid">
           <BudgetCard
             title="Monthly Budget"
-            value={`$${monthlyBudget.toFixed(2)}`}
+            value={formatCurrency(monthlyBudget, currency)}
             type="budget"
           />
 
           <BudgetCard
             title="Spent This Month"
-            value={`$${totalSpent.toFixed(2)}`}
+            value={formatCurrency(totalSpent, currency)}
             type="spent"
           />
 
           <BudgetCard
             title="Remaining"
-            value={`$${remainingBudget.toFixed(2)}`}
+            value={formatCurrency(remainingBudget, currency)}
             type="remaining"
             featured
           />

@@ -1,13 +1,18 @@
+import { useCurrentUser } from "../../../../hooks/useCurrentUser";
+import { formatCurrency } from "../../../../utils/currency";
 import "./SavingsGoal.css";
 
 const SavingsGoal = ({ goal, monthlyBudget, totalSpent, onEditGoal }) => {
+  const currentUser = useCurrentUser();
+  const currency = currentUser?.currency || "USD";
+
   const target = Number(goal.target) || 0;
   const availableAfterSpending = Math.max(monthlyBudget - totalSpent, 0);
 
   const targetStatus =
     availableAfterSpending >= target ? "On Track" : "Needs Attention";
 
-  const suggestedMonthlySave = Math.ceil(target / 4);
+  const suggestedWeeklySave = Math.ceil(target / 4);
 
   return (
     <div className="savings-goal-card">
@@ -28,7 +33,7 @@ const SavingsGoal = ({ goal, monthlyBudget, totalSpent, onEditGoal }) => {
 
       <div className="savings-goal-progress-main">
         <div>
-          <strong>${target.toFixed(2)}</strong>
+          <strong>{formatCurrency(target, currency)}</strong>
           <p>monthly savings target</p>
         </div>
 
@@ -38,7 +43,7 @@ const SavingsGoal = ({ goal, monthlyBudget, totalSpent, onEditGoal }) => {
       <div className="savings-goal-stats">
         <div className="savings-stat-box">
           <p>Available After Spending</p>
-          <h4>${availableAfterSpending.toFixed(2)}</h4>
+          <h4>{formatCurrency(availableAfterSpending, currency)}</h4>
         </div>
 
         <div className="savings-stat-box">
@@ -48,7 +53,7 @@ const SavingsGoal = ({ goal, monthlyBudget, totalSpent, onEditGoal }) => {
 
         <div className="savings-stat-box full">
           <p>Suggested Weekly Save</p>
-          <h4>${suggestedMonthlySave.toFixed(2)}</h4>
+          <h4>{formatCurrency(suggestedWeeklySave, currency)}</h4>
         </div>
       </div>
     </div>

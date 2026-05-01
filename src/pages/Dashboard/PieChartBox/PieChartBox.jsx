@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { getAllTransactions } from "../../../services/storage";
+import { useCurrentUser } from "../../../hooks/useCurrentUser";
+import { formatCurrency } from "../../../utils/currency";
+import { isCurrentMonthToDate } from "../../../utils/dateFilters";
 import "./PieChartBox.css";
 
 function PieChartBox() {
-  const allTransactions = getAllTransactions();
+  const currentUser = useCurrentUser();
+  const currency = currentUser?.currency || "USD";
+
+  const allTransactions = getAllTransactions().filter((transaction) =>
+    isCurrentMonthToDate(transaction.date)
+  );
+
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -21,6 +30,7 @@ function PieChartBox() {
     "Education",
     "Travel",
     "Health",
+    "Other",
   ];
 
   const categoryMap = categories.reduce((acc, category) => {
@@ -50,6 +60,7 @@ function PieChartBox() {
     "#8B5CF6",
     "#14B8A6",
     "#F97316",
+    "#94A3B8",
   ];
 
   const isMobile = screenWidth <= 640;
@@ -94,7 +105,7 @@ function PieChartBox() {
     return (
       <div className="pie-tooltip">
         <p className="pie-tooltip-title">{item.name}</p>
-        <p>${item.value.toFixed(2)}</p>
+        <p>{formatCurrency(item.value, currency)}</p>
       </div>
     );
   };
@@ -123,14 +134,12 @@ function PieChartBox() {
                 labelLine={false}
                 label={renderLabel}
                 stroke="none"
-                activeShape={null}
                 isAnimationActive={false}
               >
                 {chartData.map((entry, index) => (
                   <Cell
                     key={entry.name}
                     fill={COLORS[index % COLORS.length]}
-                    stroke="none"
                   />
                 ))}
               </Pie>
@@ -146,7 +155,7 @@ function PieChartBox() {
               <span
                 className="pie-legend-dot"
                 style={{ backgroundColor: COLORS[index % COLORS.length] }}
-              ></span>
+              />
               <span className="pie-legend-label">{item.name}</span>
             </div>
           ))}

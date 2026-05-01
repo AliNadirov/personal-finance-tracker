@@ -2,9 +2,14 @@ import { useState, useEffect } from "react";
 import "./CalendarSummary.css";
 import mockTransactions from "../../../data/mock_transactions.json";
 import { getTransactions, getCurrentUser } from "../../../services/storage";
+import { useCurrentUser } from "../../../hooks/useCurrentUser";
+import { formatCurrency } from "../../../utils/currency";
+import { isPastOrToday } from "../../../utils/dateFilters";
 
 function CalendarSummary() {
   const today = new Date();
+  const currentUser = useCurrentUser();
+  const currency = currentUser?.currency || "USD";
 
   const [selectedDate, setSelectedDate] = useState(today);
   const [currentMonth, setCurrentMonth] = useState(today);
@@ -12,44 +17,73 @@ function CalendarSummary() {
   const [budget, setBudget] = useState(0);
 
   useEffect(() => {
-    const stored = getTransactions();
-    setAllTransactions([...mockTransactions, ...stored]);
+    const loadCalendarData = () => {
+      const stored = getTransactions();
+      const validTransactions = [...mockTransactions, ...stored].filter(
+        (transaction) => isPastOrToday(transaction.date)
+      );
 
-    const user = getCurrentUser();
-    setBudget(Number(user?.monthlyBudget ?? 0));
+      setAllTransactions(validTransactions);
+
+      const user = getCurrentUser();
+      setBudget(Number(user?.monthlyBudget ?? 0));
+    };
+
+    loadCalendarData();
+
+    window.addEventListener("budgetbee:user-updated", loadCalendarData);
+
+    return () => {
+      window.removeEventListener("budgetbee:user-updated", loadCalendarData);
+    };
   }, []);
+
+  const formatDayAmount = (amount) => {
+    const value = Number(amount) || 0;
+
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+      notation: value >= 1000 ? "compact" : "standard",
+      maximumFractionDigits: value >= 1000 ? 1 : 0,
+    }).format(value);
+  };
 
   const year = currentMonth.getFullYear();
   const month = currentMonth.getMonth();
-
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  const filteredTransactions = allTransactions.filter((t) => {
-    const d = new Date(t.date);
+  const selectedDateEnd = new Date(selectedDate);
+  selectedDateEnd.setHours(23, 59, 59, 999);
+
+  const filteredTransactions = allTransactions.filter((transaction) => {
+    const date = new Date(`${transaction.date}T00:00:00`);
+
     return (
-      d.getFullYear() === selectedDate.getFullYear() &&
-      d.getMonth() === selectedDate.getMonth() &&
-      d.getDate() <= selectedDate.getDate()
+      date.getFullYear() === selectedDate.getFullYear() &&
+      date.getMonth() === selectedDate.getMonth() &&
+      date <= selectedDateEnd
     );
   });
 
   const totalSpent = filteredTransactions.reduce(
-    (sum, t) => sum + t.amount,
+    (sum, transaction) => sum + Number(transaction.amount || 0),
     0
   );
 
   const remaining = budget - totalSpent;
 
-  const selectedDayTransactions = allTransactions.filter((t) => {
-    const d = new Date(t.date);
+  const selectedDayTransactions = allTransactions.filter((transaction) => {
+    const date = new Date(`${transaction.date}T00:00:00`);
+
     return (
-      d.getFullYear() === selectedDate.getFullYear() &&
-      d.getMonth() === selectedDate.getMonth() &&
-      d.getDate() === selectedDate.getDate()
+      date.getFullYear() === selectedDate.getFullYear() &&
+      date.getMonth() === selectedDate.getMonth() &&
+      date.getDate() === selectedDate.getDate()
     );
   });
 
-  const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  const daysArray = Array.from({ length: daysInMonth }, (_, index) => index + 1);
 
   const goPrevMonth = () => {
     const newDate = new Date(year, month - 1, 1);
@@ -65,7 +99,6 @@ function CalendarSummary() {
 
   return (
     <div className="calendar-summary">
-
       <div className="calendar-box">
         <div className="calendar-header">
           <button onClick={goPrevMonth}>←</button>
@@ -82,32 +115,37 @@ function CalendarSummary() {
             const isSelected = day === selectedDate.getDate();
 
             const dayTotal = allTransactions
-              .filter((t) => {
-                const d = new Date(t.date);
+              .filter((transaction) => {
+                const date = new Date(`${transaction.date}T00:00:00`);
+
                 return (
-                  d.getFullYear() === year &&
-                  d.getMonth() === month &&
-                  d.getDate() === day
+                  date.getFullYear() === year &&
+                  date.getMonth() === month &&
+                  date.getDate() === day
                 );
               })
-              .reduce((sum, t) => sum + t.amount, 0);
+              .reduce(
+                (sum, transaction) => sum + Number(transaction.amount || 0),
+                0
+              );
 
             return (
               <div
                 key={day}
-                className={`calendar-day ${isSelected ? "active" : ""} ${day === today.getDate() &&
+                className={`calendar-day ${isSelected ? "active" : ""} ${
+                  day === today.getDate() &&
                   month === today.getMonth() &&
                   year === today.getFullYear()
-                  ? "today"
-                  : ""
-                  }`}
+                    ? "today"
+                    : ""
+                }`}
                 onClick={() => setSelectedDate(new Date(year, month, day))}
               >
-
                 <div className="day-number">{day}</div>
+
                 {dayTotal > 0 && (
                   <div className="day-amount">
-                    ${dayTotal.toFixed(0)}
+                    {formatDayAmount(dayTotal)}
                   </div>
                 )}
               </div>
@@ -121,24 +159,26 @@ function CalendarSummary() {
 
         <div className="summary-row income">
           <span>Budget</span>
-          <strong>${budget.toFixed(2)}</strong>
+          <strong>{formatCurrency(budget, currency)}</strong>
         </div>
 
         <div className="summary-row expenses">
           <span>Spent</span>
-          <strong>${totalSpent.toFixed(2)}</strong>
+          <strong>{formatCurrency(totalSpent, currency)}</strong>
         </div>
 
         <div className="summary-row remaining">
           <span>Left</span>
-          <strong>${remaining.toFixed(2)}</strong>
+          <strong>{formatCurrency(remaining, currency)}</strong>
         </div>
 
         <div className="progress-bar">
           <div
             className="progress-fill"
             style={{
-              width: `${budget > 0 ? Math.min((totalSpent / budget) * 100, 100) : 0}%`
+              width: `${
+                budget > 0 ? Math.min((totalSpent / budget) * 100, 100) : 0
+              }%`,
             }}
           />
         </div>
@@ -147,12 +187,15 @@ function CalendarSummary() {
           <h5>Transactions</h5>
 
           {selectedDayTransactions.length === 0 ? (
-            <p>No transactions</p>
+            <p>No activity for this day</p>
           ) : (
-            selectedDayTransactions.map((t, index) => (
-              <div key={`${t.id}-${t.date}-${index}`} className="day-item">
-                <span>{t.type}</span>
-                <strong>${t.amount}</strong>
+            selectedDayTransactions.map((transaction, index) => (
+              <div
+                key={`${transaction.id}-${transaction.date}-${index}`}
+                className="day-item"
+              >
+                <span>{transaction.type}</span>
+                <strong>{formatCurrency(transaction.amount, currency)}</strong>
               </div>
             ))
           )}
