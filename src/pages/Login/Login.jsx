@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import IconButtons from "../../components/AuthButtons/AuthButtons.jsx";
 import PasswordInput from "../../components/PasswordInput/PasswordInput.jsx";
 import { findUserByEmail, setCurrentUser } from "../../services/storage.js";
-import budgetBeeLogoMain from "../../assets/images/main_logo.png"
+import budgetBeeLogoMain from "../../assets/images/main_logo.png";
 import "./Login.css";
 
 export default function Login() {
@@ -13,6 +13,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -33,20 +34,26 @@ export default function Login() {
       return;
     }
 
-    const user = await findUserByEmail(normalizedEmail);
+    setIsLoading(true);
 
-    if (!user) {
-      setEmailError("No account found with this email");
-      return;
-    }
+    setTimeout(async () => {
+      const user = await findUserByEmail(normalizedEmail);
 
-    if (user.password !== currentPassword) {
-      setPasswordError("Incorrect password");
-      return;
-    }
+      if (!user) {
+        setEmailError("We couldn’t find an account for this email");
+        setIsLoading(false);
+        return;
+      }
 
-    setCurrentUser(user);
-    navigate("/dashboard");
+      if (user.password !== currentPassword) {
+        setPasswordError("Incorrect password");
+        setIsLoading(false);
+        return;
+      }
+
+      setCurrentUser(user);
+      navigate("/dashboard");
+    }, 600);
   };
 
   return (
@@ -69,8 +76,8 @@ export default function Login() {
           <div className="login-product-preview">
             <div className="login-preview-card primary">
               <span>Monthly budget</span>
-              <strong>$2,450</strong>
-              <p>70% of income planned</p>
+              <strong>$10,000</strong>
+              <p>$5,880 remaining this month</p>
             </div>
 
             <div className="login-preview-grid">
@@ -81,13 +88,13 @@ export default function Login() {
 
               <div className="login-preview-card">
                 <span>Expenses</span>
-                <strong>$840</strong>
+                <strong>$4,120</strong>
               </div>
             </div>
           </div>
 
           <Link to="/signup" className="login-create-link">
-            Create free account
+            New here? Create account
           </Link>
         </div>
       </section>
@@ -98,7 +105,7 @@ export default function Login() {
             <img src={budgetBeeLogoMain} alt="BudgetBee logo" />
             <p className="login-eyebrow">Welcome back</p>
             <h2>Log in to BudgetBee</h2>
-            <p>Continue managing your personal finance workspace.</p>
+            <p>Sign in to view your latest finance overview.</p>
           </div>
 
           <IconButtons />
@@ -139,19 +146,20 @@ export default function Login() {
                 placeholder="Enter your password"
                 autoComplete="current-password"
               />
+
               {passwordError && (
                 <span className="login-error">{passwordError}</span>
               )}
             </div>
 
-            <button type="submit" className="login-submit-btn">
-              Log in
+            <button
+              type="submit"
+              className="login-submit-btn"
+              disabled={isLoading}
+            >
+              {isLoading ? "Signing in..." : "Log in"}
             </button>
           </form>
-
-          <p className="login-mobile-signup">
-            New to BudgetBee? <Link to="/signup">Create an account</Link>
-          </p>
         </div>
       </section>
     </main>

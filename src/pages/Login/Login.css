@@ -14,8 +14,6 @@
   overflow: hidden;
 }
 
-/* LEFT SIDE */
-
 .login-brand-panel {
   display: flex;
   align-items: center;
@@ -149,8 +147,6 @@
   color: #f97316;
   transform: translateY(-2px);
 }
-
-/* RIGHT SIDE */
 
 .login-form-panel {
   display: flex;
@@ -332,23 +328,16 @@
   transition: 0.2s ease;
 }
 
-.login-submit-btn:hover {
+.login-submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 20px 36px rgba(37, 99, 235, 0.29);
 }
 
-.login-mobile-signup {
-  display: none;
-  margin: 18px 0 0;
-  text-align: center;
-  color: #64748b;
-  font-size: 0.95rem;
-}
-
-.login-mobile-signup a {
-  color: #1e3a8a;
-  font-weight: 900;
-  text-decoration: none;
+.login-submit-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+  transform: none;
+  box-shadow: none;
 }
 
 .login-card .password-input-wrapper {
@@ -359,8 +348,6 @@
 .login-card .password-input-wrapper input {
   width: 100%;
 }
-
-/* TABLET */
 
 @media (max-width: 980px) {
   .login-page {
@@ -407,16 +394,18 @@
   }
 }
 
-/* MOBILE */
-
 @media (max-width: 560px) {
   .login-brand-panel {
     padding: 26px 16px;
   }
 
-  .login-product-preview,
-  .login-create-link {
+  .login-product-preview {
     display: none;
+  }
+
+  .login-create-link {
+    width: 100%;
+    max-width: 280px;
   }
 
   .login-brand-inner h1 {
@@ -449,10 +438,6 @@
 
   .login-submit-btn {
     height: 52px;
-  }
-
-  .login-mobile-signup {
-    display: block;
   }
 }
 
