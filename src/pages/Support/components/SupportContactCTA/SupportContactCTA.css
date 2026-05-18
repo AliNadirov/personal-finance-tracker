@@ -1,0 +1,122 @@
+.support-contact-cta {
+  margin-top: 36px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(248, 251, 255, 0.96) 100%
+    );
+  border: 1px solid #e2e8f0;
+  border-radius: 28px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.05);
+}
+
+.support-contact-content {
+  max-width: 620px;
+}
+
+.support-contact-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.08);
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.support-contact-text {
+  margin: 0;
+  max-width: 560px;
+  font-size: 16px;
+  line-height: 1.85;
+  color: #64748b;
+}
+
+.support-contact-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.support-contact-btn,
+.support-back-btn {
+  border: none;
+  border-radius: 15px;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.24s ease,
+    box-shadow 0.24s ease,
+    background 0.24s ease;
+}
+
+.support-contact-btn {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.support-contact-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px rgba(37, 99, 235, 0.18);
+}
+
+.support-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f59e0b;
+  color: #ffffff;
+}
+
+.support-back-btn:hover {
+  background: #f39a05;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px rgba(245, 158, 11, 0.18);
+}
+
+@media (max-width: 1100px) {
+  .support-contact-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .support-contact-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .support-contact-cta {
+    padding: 22px 16px;
+    border-radius: 22px;
+  }
+
+  .support-contact-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .support-contact-btn,
+  .support-back-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .support-contact-text {
+    font-size: 15px;
+  }
+}

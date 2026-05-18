@@ -1,0 +1,118 @@
+.support-hero {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.support-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.08);
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.support-hero h1 {
+  margin: 0 0 16px;
+  font-size: 44px;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: #0f172a;
+}
+
+.support-hero p {
+  max-width: 760px;
+  margin: 0 auto 28px;
+  font-size: 17px;
+  line-height: 1.8;
+  color: #64748b;
+}
+
+.support-search-box {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.support-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 18px;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.support-search-box input {
+  width: 100%;
+  height: 60px;
+  border: 1px solid #dbe3ee;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 0 20px 0 52px;
+  font-size: 15px;
+  color: #0f172a;
+  outline: none;
+  box-sizing: border-box;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
+}
+
+.support-search-box input:focus {
+  border-color: #2563eb;
+  box-shadow:
+    0 0 0 4px rgba(37, 99, 235, 0.1),
+    0 16px 32px rgba(15, 23, 42, 0.07);
+}
+
+.support-search-box input::placeholder {
+  color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+  .support-hero {
+    margin-bottom: 32px;
+  }
+
+  .support-hero h1 {
+    font-size: 34px;
+  }
+
+  .support-hero p {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .support-search-box input {
+    height: 56px;
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .support-badge {
+    font-size: 12px;
+    padding: 7px 12px;
+  }
+
+  .support-hero h1 {
+    font-size: 29px;
+  }
+
+  .support-search-box input {
+    font-size: 14px;
+    padding-left: 48px;
+  }
+
+  .support-search-icon {
+    left: 16px;
+  }
+}
