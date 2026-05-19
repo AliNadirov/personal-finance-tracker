@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import IconButtons from "../../components/AuthButtons/AuthButtons.jsx";
 import PasswordInput from "../../components/PasswordInput/PasswordInput.jsx";
 import { findUserByEmail, setCurrentUser } from "../../services/storage.js";
-import budgetBeeLogoMain from "../../assets/images/main_logo.png";
+import budgetBeeLogoMain from "../../assets/images/logo-hero.png";
 import "./Login.css";
 
 export default function Login() {

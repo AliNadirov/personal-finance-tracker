@@ -1,68 +1,70 @@
 .terms-page {
   min-height: 100vh;
-  padding: 56px 20px;
-  background: linear-gradient(180deg, #f4f7fb 0%, #eef3f9 100%);
+  padding: 52px 20px;
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 34%),
+    linear-gradient(180deg, #f6f8fb 0%, #eef3f8 100%);
   font-family: "Inter", sans-serif;
 }
 
 .terms-shell {
-  max-width: 880px;
+  max-width: 860px;
   margin: 0 auto;
 }
 
 .terms-header {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 26px;
 }
 
 .terms-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 7px 14px;
+  padding: 6px 13px;
   border-radius: 999px;
-  background: rgba(0, 74, 173, 0.08);
-  color: #004aad;
-  font-size: 0.85rem;
+  background: rgba(37, 99, 235, 0.09);
+  color: #1d4ed8;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .terms-title {
   margin: 0;
   color: #0f172a;
-  font-size: clamp(2rem, 4vw, 2.9rem);
+  font-size: clamp(2rem, 4vw, 2.8rem);
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.12;
 }
 
 .terms-subtitle {
-  max-width: 640px;
+  max-width: 620px;
   margin: 14px auto 10px;
-  color: #5b6475;
-  font-size: 1rem;
-  line-height: 1.7;
+  color: #64748b;
+  font-size: 0.98rem;
+  line-height: 1.65;
 }
 
 .terms-date {
   margin: 0;
-  color: #7b8494;
-  font-size: 0.95rem;
+  color: #8a94a6;
+  font-size: 0.92rem;
   font-weight: 500;
 }
 
 .terms-card {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(15, 23, 42, 0.06);
-  border-radius: 28px;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
-  padding: 36px 34px;
+  border-radius: 22px;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.075);
+  padding: 34px 32px;
 }
 
 .terms-section {
-  padding: 24px 0;
-  border-bottom: 1px solid #eef2f7;
+  padding: 20px 0;
+  border-bottom: 1px solid #edf1f6;
 }
 
 .terms-section:first-child {
@@ -75,18 +77,18 @@
 }
 
 .terms-section-title {
-  margin: 0 0 14px;
-  color: #004aad;
-  font-size: 1.3rem;
-  font-weight: 700;
+  margin: 0 0 12px;
+  color: #1d4ed8;
+  font-size: 1.15rem;
+  font-weight: 750;
   line-height: 1.35;
 }
 
 .terms-section-content p {
-  margin: 0 0 14px;
+  margin: 0 0 13px;
   color: #475569;
-  font-size: 1rem;
-  line-height: 1.85;
+  font-size: 0.98rem;
+  line-height: 1.78;
 }
 
 .terms-section-content p:last-child {
@@ -94,50 +96,52 @@
 }
 
 .terms-list {
-  margin: 0 0 16px 0;
-  padding-left: 20px;
+  margin: 0 0 15px;
+  padding-left: 19px;
   color: #475569;
 }
 
 .terms-list li {
-  margin-bottom: 10px;
-  line-height: 1.75;
+  margin-bottom: 9px;
+  line-height: 1.72;
 }
 
 .terms-link {
-  color: #004aad;
-  font-weight: 600;
+  color: #1d4ed8;
+  font-weight: 700;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .terms-link:hover {
+  color: #1e40af;
   text-decoration: underline;
 }
 
 .terms-actions {
   display: flex;
   justify-content: flex-start;
-  margin-top: 34px;
-  padding-top: 28px;
-  border-top: 1px solid #eef2f7;
+  margin-top: 32px;
+  padding-top: 26px;
+  border-top: 1px solid #edf1f6;
 }
 
 .terms-back-btn {
   border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #004aad 0%, #2563eb 100%);
+  border-radius: 13px;
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
   color: #ffffff;
-  padding: 13px 24px;
-  font-size: 0.98rem;
-  font-weight: 700;
+  padding: 12px 22px;
+  font-size: 0.95rem;
+  font-weight: 750;
   cursor: pointer;
-  box-shadow: 0 10px 22px rgba(0, 74, 173, 0.22);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
   transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
 .terms-back-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 28px rgba(0, 74, 173, 0.28);
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.27);
   opacity: 0.98;
 }
 
@@ -152,21 +156,21 @@
 
   .terms-card {
     padding: 28px 22px;
-    border-radius: 22px;
+    border-radius: 20px;
   }
 
   .terms-section {
-    padding: 20px 0;
+    padding: 19px 0;
   }
 
   .terms-section-title {
-    font-size: 1.15rem;
+    font-size: 1.08rem;
   }
 
   .terms-section-content p,
   .terms-list li {
-    font-size: 0.96rem;
-    line-height: 1.75;
+    font-size: 0.95rem;
+    line-height: 1.72;
   }
 
   .terms-actions {
@@ -186,7 +190,7 @@
   }
 
   .terms-subtitle {
-    font-size: 0.95rem;
+    font-size: 0.94rem;
   }
 
   .terms-card {
@@ -194,11 +198,11 @@
   }
 
   .terms-section-title {
-    font-size: 1.05rem;
+    font-size: 1.03rem;
   }
 
   .terms-back-btn {
-    font-size: 0.94rem;
+    font-size: 0.93rem;
     padding: 12px 18px;
   }
 }

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import budgetBeeLogo from "../../assets/images/Logo4.png";
-import rightPanelImage from "../../assets/images/Logo3.png";
+import budgetBeeLogo from "../../assets/images/logo-icon.png";
+import rightPanelImage from "../../assets/images/logo-full.png";
 import "./Landing.css";
 
 export default function Landing() {

@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import IconButtons from "../../components/AuthButtons/AuthButtons.jsx";
 import PasswordInput from "../../components/PasswordInput/PasswordInput.jsx";
 import { getUsers, addUser, setCurrentUser, findUserByEmail } from "../../services/storage.js";
-import logo from "../../assets/images/main_logo.png";
+import logo from "../../assets/images/logo-hero.png";
 import "./Signup.css";
 
 export default function Signup() {

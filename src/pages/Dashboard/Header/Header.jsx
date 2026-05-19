@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Menu, UserRound } from "lucide-react";
 import ProfileMenu from "./ProfileMenu/ProfileMenu";
 import { getCurrentUser } from "../../../services/storage";
+import logoFull from "../../../assets/images/logo-hero.png";
 import "./Header.css";
 
 function Header({ onMenuClick }) {
@@ -54,7 +55,7 @@ function Header({ onMenuClick }) {
       </div>
 
       <div className="header-center">
-        <span className="header-label">BudgetBee</span>
+        <img src={logoFull} alt="BudgetBee" className="header-logo" />
 
         <h1 className="header-title">Welcome back, {userName}</h1>
 

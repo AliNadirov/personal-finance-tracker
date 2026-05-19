@@ -1,8 +1,9 @@
 .landing-page {
   height: 100dvh;
   background:
-    radial-gradient(circle at top right, rgba(255, 255, 255, 0.24), transparent 32%),
-    linear-gradient(135deg, #f59e0b 0%, #f97316 56%, #ea580c 100%);
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.24), transparent 34%),
+    radial-gradient(circle at bottom left, rgba(120, 53, 15, 0.16), transparent 36%),
+    linear-gradient(135deg, #f59e0b 0%, #f97316 54%, #ea580c 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +18,7 @@
   display: grid;
   grid-template-columns: 1.02fr 0.98fr;
   align-items: center;
-  gap: 52px;
+  gap: 56px;
 }
 
 .landing-left {
@@ -37,16 +38,13 @@
   width: 58px;
   height: 58px;
   object-fit: contain;
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
 }
 
 .landing-brand h1 {
   font-family: "Bitter", serif;
   font-size: clamp(2.1rem, 3.4vw, 2.9rem);
   font-weight: 800;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.4px;
   color: #fff7ed;
   margin: 0;
 }
@@ -63,10 +61,10 @@
   margin-bottom: 16px;
   border: 1px solid rgba(255, 237, 213, 0.42);
   border-radius: 999px;
-  background: rgba(255, 237, 213, 0.24);
+  background: rgba(255, 237, 213, 0.22);
   color: #ffffff;
   font-size: 0.9rem;
-  font-weight: 700;
+  font-weight: 750;
   backdrop-filter: blur(10px);
   box-shadow: 0 14px 30px rgba(120, 53, 15, 0.14);
 }
@@ -84,7 +82,7 @@
 .landing-copy p {
   max-width: 610px;
   font-size: 0.96rem;
-  line-height: 1.5;
+  line-height: 1.55;
   color: rgba(255, 255, 255, 0.9);
   margin: 0;
 }
@@ -93,7 +91,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-top: 22px;
+  margin-top: 24px;
 }
 
 .landing-primary-btn,
@@ -118,14 +116,14 @@
 
 .landing-primary-btn {
   background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 237, 213, 0.35);
+  border: 1px solid rgba(255, 237, 213, 0.36);
   box-shadow: 0 14px 30px rgba(120, 53, 15, 0.14);
 }
 
 .landing-primary-btn:hover {
   transform: translateY(-2px);
   background: rgba(255, 255, 255, 0.22);
-  border-color: rgba(255, 237, 213, 0.5);
+  border-color: rgba(255, 237, 213, 0.52);
 }
 
 .landing-secondary-btn {
@@ -146,14 +144,14 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  margin-top: 22px;
+  margin-top: 24px;
 }
 
 .landing-highlights div {
   padding: 13px 15px;
   border: 1px solid rgba(255, 237, 213, 0.42);
   border-radius: 20px;
-  background: rgba(255, 237, 213, 0.24);
+  background: rgba(255, 237, 213, 0.22);
   backdrop-filter: blur(12px);
   box-shadow: 0 14px 30px rgba(120, 53, 15, 0.14);
 }
@@ -184,14 +182,19 @@
 }
 
 .landing-visual-card {
-  width: min(450px, 100%);
+  width: min(480px, 100%);
   aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 42px;
-  background: rgba(255, 237, 213, 0.18);
-  box-shadow: 0 35px 80px rgba(120, 53, 15, 0.2);
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.2), transparent 42%),
+    rgba(255, 237, 213, 0.18);
+  border: 1px solid rgba(255, 237, 213, 0.25);
+  box-shadow:
+    0 35px 80px rgba(120, 53, 15, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
   overflow: hidden;
   position: relative;
 }
@@ -201,15 +204,17 @@
   position: absolute;
   inset: 26px;
   border-radius: 34px;
-  border: 1px solid rgba(255, 237, 213, 0.32);
+  border: 1px solid rgba(255, 237, 213, 0.28);
+  pointer-events: none;
 }
 
 .landing-hero-image {
-  width: 122%;
-  height: 122%;
+  width: 112%;
+  height: 112%;
   object-fit: contain;
-  transform: translate(8%, 2%);
-  opacity: 0.95;
+  transform: translateY(-1%);
+  opacity: 0.98;
+  filter: drop-shadow(0 24px 34px rgba(120, 53, 15, 0.2));
 }
 
 @media (min-height: 820px) and (min-width: 901px) {
@@ -253,17 +258,22 @@
   }
 
   .landing-visual-card {
-    width: min(520px, 100%);
+    width: min(540px, 100%);
   }
 }
 
 @media (max-width: 1100px) {
   .landing-content {
-    gap: 34px;
+    gap: 36px;
   }
 
   .landing-visual-card {
-    width: min(420px, 100%);
+    width: min(430px, 100%);
+  }
+
+  .landing-hero-image {
+    width: 116%;
+    height: 116%;
   }
 }
 
@@ -314,6 +324,11 @@
   .landing-visual-card {
     width: min(380px, 86vw);
     border-radius: 36px;
+  }
+
+  .landing-hero-image {
+    width: 112%;
+    height: 112%;
   }
 }
 

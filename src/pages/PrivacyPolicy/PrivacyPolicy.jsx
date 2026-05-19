@@ -157,7 +157,7 @@ const privacySections = [
     ),
   },
   {
-    title: "10. Children’s Privacy",
+    title: "10. Children's Privacy",
     content: (
       <>
         <p>
@@ -188,9 +188,9 @@ const privacySections = [
     content: (
       <>
         <p>
-          For questions about this Privacy Policy or BudgetBee’s data practices, please contact{" "}
+          For questions about this Privacy Policy or BudgetBee's data practices, please contact{" "}
           <a className="privacy-link" href="mailto:support@budgetbee.com">
-            support@budgetbee.com
+            budgetbee.support@gmail.com
           </a>
           .
         </p>
